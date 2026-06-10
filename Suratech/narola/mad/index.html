@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narola Infotech — App Portfolio Audit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-logo">
+                    <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                        alt="Narola Infotech">
+                </div>
+                <div class="nav-links">
+                    <a href="#overview">Overview</a>
+                    <a href="#quadmaps">QuadMaps</a>
+                    <a href="#voetstappen">VoetstAPPen</a>
+                    <a href="#findings">Findings</a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="nav-mobile" id="navMobile">
+                <a href="#overview">Overview</a>
+                <a href="#quadmaps">QuadMaps</a>
+                <a href="#voetstappen">VoetstAPPen</a>
+                <a href="#findings">Findings</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="overview" style="border-top: none;">
+        <div class="container">
+            <div class="section-label">App Portfolio Audit</div>
+            <h1>Narola Infotech — shipped apps, examined</h1>
+            <p class="hero-sub">A technical teardown of two randomly selected apps built by Narola Infotech. Source
+                analysis reveals hardcoded credentials, dead API tokens, outdated libraries, and a framework
+                misrepresentation.</p>
+            <div class="hero-tags">
+                <span class="tag"><i class="fa-solid fa-mobile-screen"></i> 2 Apps Audited</span>
+                <span class="tag"><i class="fa-solid fa-building"></i> Narola Infotech Pvt Ltd</span>
+                <span class="tag warn-tag"><i class="fa-solid fa-key"></i> Hardcoded Credentials</span>
+                <span class="tag warn-tag"><i class="fa-solid fa-mask"></i> Framework Mismatch</span>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="num">2</div>
+                    <div class="lbl">Apps Reviewed</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num warn">6</div>
+                    <div class="lbl">Leaked Credentials</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num warn">1</div>
+                    <div class="lbl">Framework Lie</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num">50</div>
+                    <div class="lbl">API Endpoints</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App 1: QuadMaps -->
+    <section id="quadmaps">
+        <div class="container">
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                    </div>
+                    <div class="app-id">
+                        <div class="app-name">QuadMaps</div>
+                        <div class="app-pkg">by.mainsoft.quadmaps</div>
+                        <div class="app-desc">Social mapping and GPS tracking app for ATV/quad bike enthusiasts. Users
+                            can create and share places, record GPS tracks/routes, chat with other riders, and discover
+                            new riding locations.</div>
+                        <div class="app-tags">
+                            <span class="tag"><i class="fa-brands fa-android"></i> Android Native (Java)</span>
+                            <span class="tag"><i class="fa-solid fa-code-branch"></i> v1.2.88</span>
+                            <span class="tag"><i class="fa-solid fa-calendar"></i> Built Jul 2025</span>
+                            <span class="tag"><i class="fa-solid fa-flag"></i> Belarus (MainSoft)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-body">
+
+                    <!-- Security Alert -->
+                    <div class="alert alert-warn">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <div class="alert-title">6 hardcoded credentials found in source</div>
+                            MapBox access token, Thunderforest API key, Google Play Billing public key, and Google
+                            satellite tile URL are all embedded directly in the codebase. The MapBox token is already
+                            returning 401 — it's dead, but still shipped.
+                        </div>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-user-tie"></i> Client</div>
+                        <div class="kv-table">
+                            <div class="kv-row">
+                                <span class="kv-key">Client</span>
+                                <span class="kv-val">MainSoft (Evgeniy Landarskiy)</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Country</span>
+                                <span class="kv-val">Belarus</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Default Location</span>
+                                <span class="kv-val mono">55.1940° N, 30.2038° E (near Vitebsk)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Architecture -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-layer-group"></i> Architecture</div>
+                        <div class="kv-table">
+                            <div class="kv-row">
+                                <span class="kv-key">Pattern</span>
+                                <span class="kv-val">Package-by-Layer</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">UI</span>
+                                <span class="kv-val">Fragments + Activity navigation</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Networking</span>
+                                <span class="kv-val">Retrofit 1.x + OkHttp 2.x + RoboSpice</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Database</span>
+                                <span class="kv-val">GreenDAO ORM (SQLite)</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Event Bus</span>
+                                <span class="kv-val">EventBus 3.x (greenrobot)</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Async</span>
+                                <span class="kv-val warn">AsyncTask (51 tasks) + RoboSpice</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Image Loading</span>
+                                <span class="kv-val">Picasso 2.x</span>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info" style="margin-top: 14px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <div class="alert-title">Legacy stack warning</div>
+                                Retrofit 1.x, OkHttp 2.x, RoboSpice, and AsyncTask are all deprecated or
+                                end-of-life. The app uses <strong>51 AsyncTask classes</strong> — a pattern Google
+                                deprecated in API 30 (2020).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Configuration -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-map"></i> Map Configuration</div>
+                        <div class="kv-table">
+                            <div class="kv-row">
+                                <span class="kv-key">Provider</span>
+                                <span class="kv-val">osmdroid + MapBox</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Default Tiles</span>
+                                <span class="kv-val">Thunderforest Open Cycle Map <span class="status-ok">●
+                                        Working</span></span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Satellite Tiles</span>
+                                <span class="kv-val">Google Maps Satellite <span class="status-ok">●
+                                        Working</span></span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">MapBox Satellite</span>
+                                <span class="kv-val">MapBoxV4TileSource <span class="status-dead">● Token dead
+                                        (401)</span></span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Clustering</span>
+                                <span class="kv-val">osmdroid-bonuspack RadiusMarkerClusterer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hardcoded Credentials -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-key"></i> Hardcoded Credentials</div>
+
+                        <div class="credential-block">
+                            <div class="cred-label"><i class="fa-solid fa-triangle-exclamation"
+                                    style="margin-right:4px;"></i> MapBox Access Token <span
+                                    style="font-weight:400; text-transform:none; letter-spacing:0;">(401 —
+                                    dead)</span></div>
+                            <div class="cred-value">
+                                pk.eyJ1IjoiZXZnZW5peWxhbmRhcnNraXkiLCJhIjoiSi0yVlNiZyJ9.d-QdCfzjE93iiiTI8FdUig
+                            </div>
+                        </div>
+
+                        <div class="credential-block">
+                            <div class="cred-label"><i class="fa-solid fa-triangle-exclamation"
+                                    style="margin-right:4px;"></i> MapBox Map ID</div>
+                            <div class="cred-value">evgeniylandarskiy.m230ce5c</div>
+                        </div>
+
+                        <div class="credential-block">
+                            <div class="cred-label"><i class="fa-solid fa-triangle-exclamation"
+                                    style="margin-right:4px;"></i> Thunderforest API Key</div>
+                            <div class="cred-value">399a42e1d884469394607173c550ded4</div>
+                        </div>
+
+                        <div class="credential-block">
+                            <div class="cred-label"><i class="fa-solid fa-triangle-exclamation"
+                                    style="margin-right:4px;"></i> Google Play Billing Public Key</div>
+                            <div class="cred-value" style="font-size: 11px;">
+                                MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhaNI/giymyNorITJnLcok7v6IguT9NTxUWGD7RDjrUP8E4x2uXNb+twgjkOFuHhGdiDYsC2pHR44dF3ikTjgD0plVVpeLtOuOeb/N11Vct8faaw2x9xBhlm77TuVYw6zsjHQtoatup4JiCM1frD54x5tc9zxr7320ltmA6TCf0T1Unm90tHQmfNlvRHy2/IE9SB7vyrNvRv9KLZnwiWxqFnInR5yDc6MjYInlagGj+Hwihfe7qefMIG0E8IX4WuITo5vo5e4WRLGL7QyuNYmb88tqJARsPEToONwBKjNw4258QVvxdPDPb2plycH1VlRlJTa7ebd4QI4P2csaB1NwwIDAQAB
+                            </div>
+                        </div>
+
+                        <div class="credential-block">
+                            <div class="cred-label"><i class="fa-solid fa-triangle-exclamation"
+                                    style="margin-right:4px;"></i> Google Satellite URL</div>
+                            <div class="cred-value">http://mt0.google.com/vt/lyrs=y&amp;hl=en</div>
+                        </div>
+
+                        <div class="credential-block">
+                            <div class="cred-label"><i class="fa-solid fa-triangle-exclamation"
+                                    style="margin-right:4px;"></i> Default Coordinates</div>
+                            <div class="cred-value">55.193987, 30.203848 (client's location)</div>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-puzzle-piece"></i> Features</div>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                                <div class="feature-name">Interactive Map</div>
+                                <div class="feature-desc">Multiple tile sources with marker clustering and location
+                                    overlays</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-location-pin"></i></div>
+                                <div class="feature-name">Places (POI)</div>
+                                <div class="feature-desc">Create POIs with photos, visited tracking, favorites, and
+                                    offline support</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-route"></i></div>
+                                <div class="feature-name">Tracks & Routes</div>
+                                <div class="feature-desc">GPS recording, GPX/KML import/export, sharing with access
+                                    control</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                                <div class="feature-name">Social</div>
+                                <div class="feature-desc">User profiles, chat, ratings, news feed, VK social login
+                                </div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                                <div class="feature-name">GPS Tracking</div>
+                                <div class="feature-desc">Background logging (30 min / 50m radius), place visit
+                                    auto-detection</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-database"></i></div>
+                                <div class="feature-name">Offline Support</div>
+                                <div class="feature-desc">SQLite dirty queue for offline place creation + tile caching
+                                </div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-bell"></i></div>
+                                <div class="feature-name">Push Notifications</div>
+                                <div class="feature-desc">FCM for messages, place visits, news, track
+                                    request/approvals</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-credit-card"></i></div>
+                                <div class="feature-name">Subscriptions</div>
+                                <div class="feature-desc">Google Play Billing for ad removal + satellite tile access
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modules -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-boxes-stacked"></i> Modules & Counts</div>
+
+                        <button class="collapsible-toggle" onclick="toggleSection('quadModules')">
+                            Show 12 modules <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div class="collapsible-content" id="quadModules">
+                            <div class="modules-grid">
+                                <div class="module-item">
+                                    <span class="mod-name">fragments</span>
+                                    <span class="mod-desc">37 fragments — map, place, track, social, auth, settings,
+                                        news</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">models</span>
+                                    <span class="mod-desc">54 network DTOs for API request/response</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">tasks</span>
+                                    <span class="mod-desc">51 AsyncTask classes for background operations</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">views</span>
+                                    <span class="mod-desc">19 custom UI components</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">events</span>
+                                    <span class="mod-desc">20 EventBus event types</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">services</span>
+                                    <span class="mod-desc">8 Retrofit REST + 8 business services, GPS, FCM, offline
+                                        sync</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">dao</span>
+                                    <span class="mod-desc">6 GreenDAO entities (POI, ratings, chat, customer)</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">adapter</span>
+                                    <span class="mod-desc">RecyclerView / ListView adapters</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">billing</span>
+                                    <span class="mod-desc">In-app billing (monthly / full-time plans)</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">map</span>
+                                    <span class="mod-desc">MapBox tile source, 4 cluster types, overlays</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">autofill_otp</span>
+                                    <span class="mod-desc">Automatic SMS OTP for phone registration</span>
+                                </div>
+                                <div class="module-item">
+                                    <span class="mod-name">util</span>
+                                    <span class="mod-desc">Image, bitmap, location, validation, social helpers</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Libraries -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-cubes"></i> Third-party Libraries (30)</div>
+
+                        <button class="collapsible-toggle" onclick="toggleSection('quadLibs')">
+                            Show all 30 libraries <i class="fa-solid fa-chevron-down"></i>
+                        </button>
+
+                        <div class="collapsible-content" id="quadLibs">
+                            <ul class="lib-list">
+                                <li><i class="fa-solid fa-circle"></i>osmdroid (map rendering)</li>
+                                <li><i class="fa-solid fa-circle"></i>osmdroid-bonuspack (clustering, KML)</li>
+                                <li><i class="fa-solid fa-circle"></i>Retrofit 1.x + OkHttp 2.x</li>
+                                <li><i class="fa-solid fa-circle"></i>Gson (JSON)</li>
+                                <li><i class="fa-solid fa-circle"></i>GreenDAO (SQLite ORM)</li>
+                                <li><i class="fa-solid fa-circle"></i>EventBus (greenrobot)</li>
+                                <li><i class="fa-solid fa-circle"></i>Picasso 2.x (image loading)</li>
+                                <li><i class="fa-solid fa-circle"></i>Firebase Analytics / FCM / Crashlytics</li>
+                                <li><i class="fa-solid fa-circle"></i>Google Play Billing</li>
+                                <li><i class="fa-solid fa-circle"></i>RoboSpice (async networking)</li>
+                                <li><i class="fa-solid fa-circle"></i>EasyPermissions</li>
+                                <li><i class="fa-solid fa-circle"></i>VK SDK (social login)</li>
+                                <li><i class="fa-solid fa-circle"></i>Android-GeoJSON</li>
+                                <li><i class="fa-solid fa-circle"></i>MaterialDialogs</li>
+                                <li><i class="fa-solid fa-circle"></i>PagerSlidingTabStrip</li>
+                                <li><i class="fa-solid fa-circle"></i>Glide (image loading)</li>
+                                <li><i class="fa-solid fa-circle"></i>RecyclerFastScroll</li>
+                                <li><i class="fa-solid fa-circle"></i>ASNE (social login)</li>
+                                <li><i class="fa-solid fa-circle"></i>PhotoView (pinch-to-zoom)</li>
+                                <li><i class="fa-solid fa-circle"></i>CircleImageView</li>
+                                <li><i class="fa-solid fa-circle"></i>libphonenumber-android</li>
+                                <li><i class="fa-solid fa-circle"></i>RxJava 3.x</li>
+                                <li><i class="fa-solid fa-circle"></i>Android-GPX-Parser</li>
+                                <li><i class="fa-solid fa-circle"></i>MaterialProgressBar</li>
+                                <li><i class="fa-solid fa-circle"></i>Joda-Time-Android</li>
+                                <li><i class="fa-solid fa-circle"></i>FloatingActionButton</li>
+                                <li><i class="fa-solid fa-circle"></i>MultiType-FilePicker</li>
+                                <li><i class="fa-solid fa-circle"></i>MaterialEditText</li>
+                                <li><i class="fa-solid fa-circle"></i>NineOldAndroids</li>
+                                <li><i class="fa-solid fa-circle"></i>ListViewAnimations</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- API -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-plug"></i> API</div>
+                        <div class="kv-table">
+                            <div class="kv-row">
+                                <span class="kv-key">Total Endpoints</span>
+                                <span class="kv-val">50</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Auth Header</span>
+                                <span class="kv-val mono">X-AUTHORIZATION-TOKEN</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Categories</span>
+                                <span class="kv-val">
+                                    <span class="chip" style="margin:2px;"><i class="fa-solid fa-circle"></i>auth</span>
+                                    <span class="chip" style="margin:2px;"><i
+                                            class="fa-solid fa-circle"></i>places</span>
+                                    <span class="chip" style="margin:2px;"><i
+                                            class="fa-solid fa-circle"></i>tracks</span>
+                                    <span class="chip" style="margin:2px;"><i class="fa-solid fa-circle"></i>chat</span>
+                                    <span class="chip" style="margin:2px;"><i
+                                            class="fa-solid fa-circle"></i>customers</span>
+                                    <span class="chip" style="margin:2px;"><i class="fa-solid fa-circle"></i>map</span>
+                                    <span class="chip" style="margin:2px;"><i class="fa-solid fa-circle"></i>news</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App 2: VoetstAPPen -->
+    <section id="voetstappen">
+        <div class="container">
+            <div class="app-card">
+                <div class="app-header">
+                    <div class="app-icon flutter">
+                        <i class="fa-solid fa-shoe-prints"></i>
+                    </div>
+                    <div class="app-id">
+                        <div class="app-name">VoetstAPPen</div>
+                        <div class="app-pkg">com.example.voetstappen_app</div>
+                        <div class="app-desc">Fitness tracking and audio-guided workout app. Users can track walks/runs
+                            via GPS, listen to audio guides, view routes on maps, and store workout history locally.
+                        </div>
+                        <div class="app-tags">
+                            <span class="tag warn-tag"><i class="fa-solid fa-mask"></i> Claimed: React Native</span>
+                            <span class="tag good-chip"
+                                style="background: var(--good-bg); border-color: var(--good-border); color: var(--good);"><i
+                                    class="fa-solid fa-check" style="color: var(--good);"></i> Actual: Flutter
+                                (Dart)</span>
+                            <span class="tag"><i class="fa-solid fa-heartbeat"></i> Health & Fitness</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-body">
+
+                    <!-- Framework Mismatch Alert -->
+                    <div class="alert alert-warn">
+                        <i class="fa-solid fa-mask"></i>
+                        <div>
+                            <div class="alert-title">Framework misrepresentation confirmed</div>
+                            Narola Infotech claims this app was built with <strong>React Native</strong>, but every
+                            dependency in the project is a <strong>Flutter/Dart package</strong>. The project path uses
+                            Flutter's default <code
+                                style="background:rgba(184,92,62,0.1); padding:2px 6px; border-radius:4px; font-size:12px;">com/example/voetstappen_app</code>
+                            structure. React Native uses completely different packages (react-native-sound,
+                            react-native-maps, @react-native-async-storage, etc.).
+                        </div>
+                    </div>
+
+                    <!-- Framework Comparison -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-scale-balanced"></i> Framework Evidence</div>
+                        <div style="overflow-x: auto; border-radius: 12px;">
+                            <table class="compare-table">
+                                <thead>
+                                    <tr>
+                                        <th>Aspect</th>
+                                        <th>Claimed (React Native)</th>
+                                        <th>Actual (Flutter)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Audio</td>
+                                        <td class="claimed">react-native-sound</td>
+                                        <td class="actual">just_audio</td>
+                                    </tr>
+                                    <tr>
+                                        <td>GPS</td>
+                                        <td class="claimed">react-native-geolocation</td>
+                                        <td class="actual">flutter-geolocator</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maps</td>
+                                        <td class="claimed">react-native-maps</td>
+                                        <td class="actual">flutter-maplibre-gl</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Database</td>
+                                        <td class="claimed">@react-native-async-storage</td>
+                                        <td class="actual">sqflite</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Splash Screen</td>
+                                        <td class="claimed">react-native-splash-screen</td>
+                                        <td class="actual">flutter_native_splash</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Project Path</td>
+                                        <td class="claimed">android/app/src/.../MainApplication.java</td>
+                                        <td class="actual">com/example/voetstappen_app</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Architecture -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-layer-group"></i> Architecture</div>
+                        <div class="kv-table">
+                            <div class="kv-row">
+                                <span class="kv-key">Framework</span>
+                                <span class="kv-val">Flutter (Dart)</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">State Management</span>
+                                <span class="kv-val">Likely Provider, Riverpod, or BLoC</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Map Provider</span>
+                                <span class="kv-val">MapLibre GL (open source)</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Audio</span>
+                                <span class="kv-val">just_audio + audio_session</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Database</span>
+                                <span class="kv-val">sqflite (SQLite)</span>
+                            </div>
+                            <div class="kv-row">
+                                <span class="kv-key">Location</span>
+                                <span class="kv-val">flutter-geolocator</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dependencies -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-cubes"></i> Flutter Dependencies (7)</div>
+                        <div class="dep-grid">
+                            <div class="dep-card">
+                                <div class="dep-name">just_audio</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">Audio playback for guided workouts, music, and audio cues during
+                                    exercise</div>
+                            </div>
+                            <div class="dep-card">
+                                <div class="dep-name">audio_session</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">Audio session config — background audio, interruption handling
+                                </div>
+                            </div>
+                            <div class="dep-card">
+                                <div class="dep-name">flutter-geolocator</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">GPS location tracking for route recording, distance, pace</div>
+                            </div>
+                            <div class="dep-card">
+                                <div class="dep-name">sqflite</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">Local SQLite database for workout history, routes, preferences
+                                </div>
+                            </div>
+                            <div class="dep-card">
+                                <div class="dep-name">flutter_keyboard_visibility</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">Keyboard show/hide detection for form screens</div>
+                            </div>
+                            <div class="dep-card">
+                                <div class="dep-name">flutter_native_splash</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">Native splash screen shown while Flutter engine initializes</div>
+                            </div>
+                            <div class="dep-card">
+                                <div class="dep-name">flutter-maplibre-gl</div>
+                                <div class="dep-type flutter-type">Flutter Package</div>
+                                <div class="dep-usage">Open-source map rendering for routes, trails, and user location
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-puzzle-piece"></i> Features</div>
+                        <div class="features-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-headphones"></i></div>
+                                <div class="feature-name">Audio Playback</div>
+                                <div class="feature-desc">Guided workouts, music during exercise, background audio
+                                    support</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+                                <div class="feature-name">GPS Tracking</div>
+                                <div class="feature-desc">Real-time location for route recording, distance, pace,
+                                    elevation</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-map"></i></div>
+                                <div class="feature-name">Map Visualization</div>
+                                <div class="feature-desc">Route display on MapLibre GL maps with trail overlays</div>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-icon"><i class="fa-solid fa-hard-drive"></i></div>
+                                <div class="feature-name">Offline Storage</div>
+                                <div class="feature-desc">Workout history and routes stored locally via sqflite</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Path Evidence -->
+                    <div class="sub-section">
+                        <div class="sub-heading"><i class="fa-solid fa-folder-tree"></i> Project Structure Evidence
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <div>
+                                The module path <code
+                                    style="background: rgba(201,162,76,0.12); padding: 2px 6px; border-radius: 4px; font-size: 12px;">com/example/voetstappen_app</code>
+                                uses Flutter's default <code
+                                    style="background: rgba(201,162,76,0.12); padding: 2px 6px; border-radius: 4px; font-size: 12px;">flutter
+                                    create</code> naming convention — <code
+                                    style="background: rgba(201,162,76,0.12); padding: 2px 6px; border-radius: 4px; font-size: 12px;">com.example.&lt;appname&gt;</code>
+                                with snake_case. React Native projects do not use this structure.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section id="findings">
+        <div class="container">
+            <div class="section-label">Summary</div>
+            <h2 class="section-title">Key findings</h2>
+            <p class="section-desc">Critical issues found across both audited applications.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+
+                <div class="alert alert-warn" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-key"></i>
+                    <div>
+                        <div class="alert-title">Hardcoded credentials in production</div>
+                        QuadMaps ships with 6 hardcoded secrets — including API keys, billing keys, and map tokens —
+                        directly in the source code. One MapBox token is already dead (401), meaning it was likely
+                        revoked after being exposed, yet remains in the build.
+                    </div>
+                </div>
+
+                <div class="alert alert-warn" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-mask"></i>
+                    <div>
+                        <div class="alert-title">Framework misrepresentation</div>
+                        VoetstAPPen is claimed to be built with React Native but is provably Flutter. Every dependency
+                        is
+                        a Flutter/Dart package. This either reflects dishonesty in portfolio claims or a fundamental
+                        disconnect between sales and engineering.
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>
+                        <div class="alert-title">Deprecated technology stack</div>
+                        QuadMaps relies on Retrofit 1.x, OkHttp 2.x, RoboSpice, and 51 AsyncTask classes — all
+                        deprecated or end-of-life. AsyncTask was deprecated in Android API 30 (2020). The app was last
+                        built in July 2025, meaning these deprecated patterns are still actively shipped.
+                    </div>
+                </div>
+
+                <div class="alert alert-info" style="margin-bottom: 0;">
+                    <i class="fa-solid fa-box-open"></i>
+                    <div>
+                        <div class="alert-title">Default project scaffolding left in place</div>
+                        VoetstAPPen still uses the <code
+                            style="background: rgba(201,162,76,0.12); padding: 2px 6px; border-radius: 4px; font-size: 12px;">com.example</code>
+                        package prefix — the default from <code
+                            style="background: rgba(201,162,76,0.12); padding: 2px 6px; border-radius: 4px; font-size: 12px;">flutter
+                            create</code>. This is a scaffolding leftover that should be replaced with the client's
+                        domain for any production release.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://in.linkedin.com/company/narola-infotech" title="LinkedIn"><i
+                        class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://www.trustpilot.com/review/www.narolainfotech.com" title="Trustpilot"><i
+                        class="fa-solid fa-star"></i></a>
+                <a href="https://play.google.com/store/apps/details?id=by.mainsoft.quadmaps"
+                    title="QuadMaps on Play Store"><i class="fa-brands fa-google-play"></i></a>
+            </div>
+            Narola Infotech Private Limited · App Portfolio Audit<br>
+            <span style="margin-top:6px; display:inline-block;">2 apps randomly selected · Analysis from decompiled
+                source</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

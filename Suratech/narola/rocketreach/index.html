@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narola Infotech — People Directory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container nav-inner">
+            <div class="nav-logo">
+                <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                    alt="Narola Infotech">
+            </div>
+            <div class="nav-meta">
+                <i class="fa-solid fa-users"></i> 10 people indexed
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" style="border-top: none;">
+        <div class="container">
+            <div class="section-label">People Directory</div>
+            <h1>Narola Infotech employees</h1>
+            <p>Browse profiles of people at Narola Infotech — search by name, role, or location, then tap any
+                card for full details, experience, and contact teasers.</p>
+            <div class="summary">
+                <div class="summary-card">
+                    <div class="num">10</div>
+                    <div class="lbl">Total People</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num" id="leaderCount">4</div>
+                    <div class="lbl">Leadership</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num" id="locationCount">4</div>
+                    <div class="lbl">Locations</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="controls">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Search by name, role, location, or skill…">
+                </div>
+                <select class="sort-select" id="sortSelect">
+                    <option value="default">Sort: Default</option>
+                    <option value="name">Name (A→Z)</option>
+                    <option value="recent">Most recent change</option>
+                    <option value="title">By title</option>
+                </select>
+                <div class="results-meta" id="resultsMeta"></div>
+            </div>
+
+            <div class="people-grid" id="peopleGrid"></div>
+        </div>
+    </section>
+
+    <div class="modal-bg" id="modal">
+        <div class="modal" id="modalContent" role="dialog" aria-modal="true"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            Narola Infotech Private Limited · People directory<br>
+            <span style="margin-top:6px; display:inline-block;">Compiled from public sources · 10 profiles</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

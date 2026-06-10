@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narola Infotech — Salary & Workplace Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-logo">
+                    <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                        alt="Narola Infotech">
+                </div>
+                <div class="nav-links">
+                    <a href="#salaries">Salaries</a>
+                    <a href="#chart">Salary Chart</a>
+                    <a href="#ratings">Ratings</a>
+                    <a href="#reviews">Reviews</a>
+                    <a href="#benefits">Benefits</a>
+                    <a href="#gender">Gender</a>
+                    <a href="#notice">Notice Period</a>
+                    <a href="#latest">Latest</a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="nav-mobile" id="navMobile">
+                <a href="#salaries">Salaries</a>
+                <a href="#chart">Salary Chart</a>
+                <a href="#ratings">Ratings</a>
+                <a href="#reviews">Reviews</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#gender">Gender</a>
+                <a href="#notice">Notice Period</a>
+                <a href="#latest">Latest</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" style="border-top:none;">
+        <div class="container">
+            <div class="section-label">Salary & Workplace Intelligence</div>
+            <h1>Narola Infotech — what employees actually earn</h1>
+            <p class="hero-sub">451 salary data points, 80 employee reviews, 19 cities, 17 departments. Deep analysis of
+                compensation, workplace ratings, benefits, and employee sentiment — all from publicly reported data.</p>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="num">451</div>
+                    <div class="lbl">Salary Data Points</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num gold">₹5.0L</div>
+                    <div class="lbl">Avg Annual CTC</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num warn">3.4</div>
+                    <div class="lbl">Overall Rating</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num">80</div>
+                    <div class="lbl">Reviews</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num good">₹10.3L</div>
+                    <div class="lbl">Highest Avg (PM)</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num warn">₹2.4L</div>
+                    <div class="lbl">Lowest Avg (NetAdmin)</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num">20</div>
+                    <div class="lbl">Job Profiles</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num">19</div>
+                    <div class="lbl">Cities</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Salary Table -->
+    <section id="salaries">
+        <div class="container">
+            <div class="section-label">Compensation</div>
+            <h2 class="section-title">Salary by role</h2>
+            <p class="section-desc">20 job profiles with average CTC, salary range, experience band, and data point
+                count. Click column headers to sort.</p>
+
+            <div class="salary-controls">
+                <input type="text" id="salarySearch" placeholder="Search role…">
+                <select id="salarySort">
+                    <option value="dataPoints-desc">Sort: Most Data Points</option>
+                    <option value="avgCtc-desc">Highest Avg CTC</option>
+                    <option value="avgCtc-asc">Lowest Avg CTC</option>
+                    <option value="name-asc">Name (A→Z)</option>
+                    <option value="exp-desc">Most Experience</option>
+                </select>
+                <select id="salaryGroup">
+                    <option value="all">Group: All</option>
+                    <option value="high">CTC &gt; ₹7L</option>
+                    <option value="mid">CTC ₹3.5L–₹7L</option>
+                    <option value="low">CTC &lt; ₹3.5L</option>
+                </select>
+                <span class="results-count" id="salaryCount"></span>
+            </div>
+
+            <div class="table-wrap">
+                <table class="salary-table" id="salaryTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('name')">Role <span class="sort-icon">↕</span></th>
+                            <th onclick="sortTable('avgCtc')">Avg CTC <span class="sort-icon">↕</span></th>
+                            <th onclick="sortTable('minCtc')">Min <span class="sort-icon">↕</span></th>
+                            <th onclick="sortTable('maxCtc')">Max <span class="sort-icon">↕</span></th>
+                            <th>Range</th>
+                            <th onclick="sortTable('exp')">Exp <span class="sort-icon">↕</span></th>
+                            <th onclick="sortTable('dataPoints')">Data Pts <span class="sort-icon">↕</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="salaryBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Salary Chart -->
+    <section id="chart">
+        <div class="container">
+            <div class="section-label">Visual</div>
+            <h2 class="section-title">Average CTC by role</h2>
+            <p class="section-desc">Bar chart of average annual CTC across all 20 job profiles, sorted highest to
+                lowest.</p>
+            <div class="bar-chart" id="salaryChart"></div>
+        </div>
+    </section>
+
+    <!-- Workplace Ratings -->
+    <section id="ratings">
+        <div class="container">
+            <div class="section-label">Employee Sentiment</div>
+            <h2 class="section-title">Workplace ratings</h2>
+            <p class="section-desc">Based on 80 reviews. 6% below industry average. Compensation and job security rated
+                lowest.</p>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 20px;">
+                <div>
+                    <h3 style="font-family:'Fraunces',serif; font-size:20px; margin-bottom:16px;">Category Ratings</h3>
+                    <div id="ratingsChart"></div>
+                </div>
+                <div>
+                    <h3 style="font-family:'Fraunces',serif; font-size:20px; margin-bottom:16px;">Star Distribution</h3>
+                    <div id="distChart"></div>
+                    <div class="kv-table" style="margin-top:16px;">
+                        <div class="kv-row">
+                            <span class="kv-key">Total Reviews</span>
+                            <span class="kv-val">80</span>
+                        </div>
+                        <div class="kv-row">
+                            <span class="kv-key">Industry Comparison</span>
+                            <span class="kv-val" style="color:var(--warn);">6% below average</span>
+                        </div>
+                        <div class="kv-row">
+                            <span class="kv-key">Last Updated</span>
+                            <span class="kv-val">2 Feb 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section id="reviews">
+        <div class="container">
+            <div class="section-label">Employee Reviews</div>
+            <h2 class="section-title">What employees say</h2>
+            <p class="section-desc">5 sampled reviews from AmbitionBox. Filter by rating, location, or role.</p>
+
+            <div class="salary-controls" style="margin-bottom:20px;">
+                <select id="reviewFilter">
+                    <option value="all">All Ratings</option>
+                    <option value="positive">Positive (4-5 ★)</option>
+                    <option value="negative">Negative (1-2 ★)</option>
+                    <option value="neutral">Neutral (3 ★)</option>
+                </select>
+                <select id="reviewSort">
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="rating-desc">Highest Rating</option>
+                    <option value="rating-asc">Lowest Rating</option>
+                </select>
+                <select id="reviewLocFilter">
+                    <option value="all">All Locations</option>
+                    <option value="Surat">Surat</option>
+                    <option value="Pune">Pune</option>
+                </select>
+                <span class="results-count" id="reviewCount"></span>
+            </div>
+
+            <div class="reviews-list" id="reviewsList"></div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="benefits">
+        <div class="container">
+            <div class="section-label">Perks & Benefits</div>
+            <h2 class="section-title">Employee benefits</h2>
+            <p class="section-desc">Only 3 out of 30 possible benefits are reported by employees. No health insurance,
+                no retirement benefits, no performance bonus reported.</p>
+            <div class="benefits-grid" id="benefitsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Gender Insights -->
+    <section id="gender">
+        <div class="container">
+            <div class="section-label">Diversity</div>
+            <h2 class="section-title">Gender insights</h2>
+            <p class="section-desc">Rating breakdown by gender — women rate the company higher on average.</p>
+            <div class="gender-grid">
+                <div class="gender-card">
+                    <div class="gender-header">
+                        <div class="gender-icon male"><i class="fa-solid fa-mars"></i></div>
+                        <div>
+                            <div class="gender-rating">3.0</div>
+                            <div class="gender-count">48 reviews</div>
+                        </div>
+                    </div>
+                    <div class="gender-tags">
+                        <div class="gender-tag"><span class="g-label">Work-life balance</span><span
+                                class="g-val">3.4</span></div>
+                        <div class="gender-tag"><span class="g-label">Company culture</span><span
+                                class="g-val">2.8</span></div>
+                    </div>
+                </div>
+                <div class="gender-card">
+                    <div class="gender-header">
+                        <div class="gender-icon female"><i class="fa-solid fa-venus"></i></div>
+                        <div>
+                            <div class="gender-rating" style="color:var(--good);">4.0</div>
+                            <div class="gender-count">28 reviews</div>
+                        </div>
+                    </div>
+                    <div class="gender-tags">
+                        <div class="gender-tag"><span class="g-label">Skill development</span><span class="g-val"
+                                style="color:var(--good);">4.2</span></div>
+                        <div class="gender-tag"><span class="g-label">Work-life balance</span><span class="g-val"
+                                style="color:var(--good);">3.9</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notice Period -->
+    <section id="notice">
+        <div class="container">
+            <div class="section-label">Exit Data</div>
+            <h2 class="section-title">Notice period distribution</h2>
+            <p class="section-desc">Based on 153 responses. Nearly half the employees have a 1-month notice.</p>
+            <div class="notice-bars" id="noticeChart"></div>
+        </div>
+    </section>
+
+    <!-- Latest Salaries -->
+    <section id="latest">
+        <div class="container">
+            <div class="section-label">Recent Reports</div>
+            <h2 class="section-title">Latest reported salaries</h2>
+            <p class="section-desc">22 most recently reported salary data points — scroll to see all.</p>
+            <div class="latest-grid" id="latestGrid"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            Narola Infotech Private Limited · Salary & Workplace Intelligence<br>
+            <span style="margin-top:6px; display:inline-block;">Data compiled from AmbitionBox public sources · 451
+                salary data points · 80 reviews</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

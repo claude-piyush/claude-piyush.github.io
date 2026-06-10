@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narola Infotech — Organization Chart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container nav-inner">
+            <div class="nav-logo">
+                <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                    alt="Narola Infotech">
+            </div>
+            <div class="nav-links">
+                <a href="#chart">Org Chart</a>
+                <a href="#departments">Departments</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" style="border-top: none;">
+        <div class="container">
+            <div class="section-label">People</div>
+            <h1>Organization Chart</h1>
+            <p>Explore the reporting structure at Narola Infotech. Tap any chevron to expand a person's direct reports,
+                or tap their card to see details.</p>
+
+            <div class="summary">
+                <div class="summary-card">
+                    <div class="num">61</div>
+                    <div class="lbl">Total Members</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num"><span class="dot" style="background:var(--ops)"></span>34</div>
+                    <div class="lbl">Operations</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num"><span class="dot" style="background:var(--sales)"></span>15</div>
+                    <div class="lbl">Sales</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num"><span class="dot" style="background:var(--hr)"></span>3</div>
+                    <div class="lbl">HR</div>
+                </div>
+                <div class="summary-card">
+                    <div class="num"><span class="dot" style="background:var(--exec)"></span>5</div>
+                    <div class="lbl">Executive</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="chart">
+        <div class="container">
+            <div class="section-label">Hierarchy</div>
+            <h2 class="section-title">Reporting structure</h2>
+            <p class="section-desc">Starts collapsed at the top. Expand any leader to reveal their direct reports —
+                numbers on each card show team size beneath them.</p>
+
+            <div class="toolbar">
+                <div style="font-size: 13px; color: var(--muted);">
+                    <i class="fa-solid fa-circle-info" style="color: var(--accent);"></i>
+                    Tap chevron to expand · Tap card for details
+                </div>
+                <div class="toolbar-actions">
+                    <button class="btn" id="expandAll"><i
+                            class="fa-solid fa-down-left-and-up-right-to-center fa-rotate-90"></i> Expand all</button>
+                    <button class="btn" id="collapseAll"><i
+                            class="fa-solid fa-up-right-and-down-left-from-center fa-rotate-90"></i> Collapse
+                        all</button>
+                </div>
+            </div>
+
+            <ul class="org-tree" id="orgTree"></ul>
+        </div>
+    </section>
+
+    <section id="departments">
+        <div class="container">
+            <div class="section-label">By function</div>
+            <h2 class="section-title">Departments</h2>
+            <p class="section-desc">Breakdown of teams, their heads, and members.</p>
+
+            <div class="dept-grid">
+                <div class="dept" data-dept="ops">
+                    <div class="dept-head">
+                        <div class="dept-name">Operations</div>
+                        <div class="dept-count">34 members</div>
+                    </div>
+                    <div class="dept-lead"><i class="fa-solid fa-user-tie"></i> Prerna Gupta · Director of Operations
+                    </div>
+                    <div class="dept-members" id="dept-ops"></div>
+                </div>
+
+                <div class="dept" data-dept="sales">
+                    <div class="dept-head">
+                        <div class="dept-name">Sales</div>
+                        <div class="dept-count">15 members</div>
+                    </div>
+                    <div class="dept-lead"><i class="fa-solid fa-user-tie"></i> Urvish Narola · Chief Sales Officer
+                    </div>
+                    <div class="dept-members" id="dept-sales"></div>
+                </div>
+
+                <div class="dept" data-dept="hr">
+                    <div class="dept-head">
+                        <div class="dept-name">Human Resources</div>
+                        <div class="dept-count">3 members</div>
+                    </div>
+                    <div class="dept-lead"><i class="fa-solid fa-user-tie"></i> Winsun Michael · HR Manager</div>
+                    <div class="dept-members" id="dept-hr"></div>
+                </div>
+
+                <div class="dept" data-dept="infra">
+                    <div class="dept-head">
+                        <div class="dept-name">Infrastructure</div>
+                        <div class="dept-count">2 members</div>
+                    </div>
+                    <div class="dept-lead"><i class="fa-solid fa-user-tie"></i> Paresh Paladiya · CIO</div>
+                    <div class="dept-members" id="dept-infra"></div>
+                </div>
+
+                <div class="dept" data-dept="tech">
+                    <div class="dept-head">
+                        <div class="dept-name">Technology</div>
+                        <div class="dept-count">1 member</div>
+                    </div>
+                    <div class="dept-lead"><i class="fa-solid fa-user-tie"></i> Nilesh Paladiya · CTO</div>
+                    <div class="dept-members" id="dept-tech"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-bg" id="modal">
+        <div class="modal" role="dialog" aria-modal="true">
+            <div class="modal-top">
+                <div class="modal-head">
+                    <div class="modal-avatar" id="modalAvatar"></div>
+                    <div style="min-width:0;">
+                        <div class="modal-name" id="modalName"></div>
+                        <div class="modal-role" id="modalRole"></div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal()" aria-label="Close"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-row"><span class="modal-key">Department</span><span class="modal-val"
+                    id="modalDept"></span></div>
+            <div class="modal-row"><span class="modal-key">Reports to</span><span class="modal-val"
+                    id="modalReports"></span></div>
+            <div class="modal-row"><span class="modal-key">Direct reports</span><span class="modal-val"
+                    id="modalDirects"></span></div>
+            <div class="modal-row"><span class="modal-key">Total team size</span><span class="modal-val"
+                    id="modalTotal"></span></div>
+            <div class="modal-row"><span class="modal-key">Level</span><span class="modal-val" id="modalLevel"></span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            Narola Infotech Private Limited · Org structure visualization
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

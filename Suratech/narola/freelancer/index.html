@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narola Infotech — Freelancer Review Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+        <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container nav-inner">
+            <div class="nav-logo"><img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                    alt="Narola Infotech"></div>
+            <div class="nav-meta"><i class="fa-solid fa-chart-bar"></i> Freelancer Review Analysis</div>
+        </div>
+    </nav>
+
+    <section class="hero" style="border-top:none">
+        <div class="container">
+            <div class="section-label">Deep Analysis Dashboard</div>
+            <h1>Narola Infotech — 949 Freelancer Reviews</h1>
+            <p>Complete breakdown of every review on Freelancer.com — ratings, revenue, repeat clients, project
+                categories, sentiment trends, and red flags. All data computed client-side from the raw API response.
+            </p>
+            <div class="summary-grid" id="summaryCards"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-label">Ratings & Revenue</div>
+            <h2 class="section-title">Visual overview</h2>
+            <p class="section-desc">Rating distribution, revenue over time, category breakdown, and delivery
+                performance.</p>
+            <div class="chart-grid">
+                <div class="chart-card">
+                    <h3>Rating Distribution</h3><canvas id="chartRating"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Revenue by Year (USD)</h3><canvas id="chartRevenue"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Project Categories (Top 12)</h3><canvas id="chartCategories"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>On-Time & On-Budget</h3><canvas id="chartDelivery"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Category Ratings Average</h3><canvas id="chartCatRatings"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Currency Distribution</h3><canvas id="chartCurrency"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-label">Repeat Clients</div>
+            <h2 class="section-title">Top clients by project count & spend</h2>
+            <p class="section-desc">Clients who awarded 3+ projects. Sorted by total spend. Click column headers to
+                re-sort.</p>
+            <div class="tbl-wrap">
+                <table id="clientTable">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">Client ID <span class="sort-icon">↕</span></th>
+                            <th data-sort="count">Projects <span class="sort-icon">↕</span></th>
+                            <th data-sort="spend">Total Spend (USD) <span class="sort-icon">↕</span></th>
+                            <th data-sort="avg">Avg Rating <span class="sort-icon">↕</span></th>
+                            <th data-sort="first">First Review <span class="sort-icon">↕</span></th>
+                            <th data-sort="last">Last Review <span class="sort-icon">↕</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="clientBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-label">Red Flags & Insights</div>
+            <h2 class="section-title">Patterns worth noting</h2>
+            <p class="section-desc">Automated insights from the data — biggest projects, negative reviews, duplicate
+                text patterns.</p>
+            <div class="insight-grid" id="insightGrid"></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="section-label">All Reviews</div>
+            <h2 class="section-title">Browse & search reviews</h2>
+            <p class="section-desc">Filter by rating, status, search text, and sort by any field.</p>
+            <div class="controls">
+                <div class="search-box"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="rvSearch"
+                        placeholder="Search project name, description…"></div>
+                <select class="ctrl-select" id="rvRating">
+                    <option value="all">All Ratings</option>
+                    <option value="5">★★★★★ (5.0)</option>
+                    <option value="4">★★★★ (4.0–4.9)</option>
+                    <option value="3">★★★ (3.0–3.9)</option>
+                    <option value="2">★★ (2.0–2.9)</option>
+                    <option value="1">★ (0–1.9)</option>
+                </select>
+                <select class="ctrl-select" id="rvStatus">
+                    <option value="all">All Status</option>
+                    <option value="complete">Complete</option>
+                    <option value="incomplete">Incomplete</option>
+                </select>
+                <select class="ctrl-select" id="rvSort">
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="rating-desc">Highest Rating</option>
+                    <option value="rating-asc">Lowest Rating</option>
+                    <option value="amount-desc">Highest Amount</option>
+                    <option value="amount-asc">Lowest Amount</option>
+                </select>
+                <div class="results-meta" id="rvMeta"></div>
+            </div>
+            <div class="review-list" id="rvList"></div>
+            <div class="pagination" id="rvPagination"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            Narola Infotech · Freelancer.com Review Analysis · 949 reviews analyzed<br>
+            <span style="margin-top:6px;display:inline-block">Data compiled from Freelancer API · All computations
+                client-side</span>
+        </div>
+    </footer>
+
+    
+    <script src="script.js"></script>
+</body>
+
+</html>
