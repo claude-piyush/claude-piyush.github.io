@@ -18,10 +18,26 @@
 <body>
 
     <nav class="nav">
-        <div class="container nav-inner">
-            <div class="nav-logo"><img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
-                    alt="Narola Infotech"></div>
-            <div class="nav-meta"><i class="fa-solid fa-chart-bar"></i> Freelancer Review Analysis</div>
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-logo">
+                    <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                        alt="Narola Infotech">
+                </div>
+                <div class="nav-links">
+                    <a href="#charts">Charts</a>
+                    <a href="#clients">Clients</a>
+                    <a href="#insights">Insights</a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="nav-mobile" id="navMobile">
+                <a href="#charts">Charts</a>
+                <a href="#clients">Clients</a>
+                <a href="#insights">Insights</a>
+            </div>
         </div>
     </nav>
 
@@ -36,7 +52,7 @@
         </div>
     </section>
 
-    <section>
+    <section id="charts">
         <div class="container">
             <div class="section-label">Ratings & Revenue</div>
             <h2 class="section-title">Visual overview</h2>
@@ -65,7 +81,7 @@
         </div>
     </section>
 
-    <section>
+    <section id="clients">
         <div class="container">
             <div class="section-label">Repeat Clients</div>
             <h2 class="section-title">Top clients by project count & spend</h2>
@@ -89,7 +105,7 @@
         </div>
     </section>
 
-    <section>
+    <section id="insights">
         <div class="container">
             <div class="section-label">Red Flags & Insights</div>
             <h2 class="section-title">Patterns worth noting</h2>
@@ -143,7 +159,11 @@
         </div>
     </footer>
 
-    
+    <script>
+        document.getElementById('navToggle')?.addEventListener('click', function() {
+            document.getElementById('navMobile')?.classList.toggle('open');
+        });
+    </script>
     <script src="script.js"></script>
 </body>
 

@@ -17,12 +17,21 @@
 <body>
 
     <nav class="nav">
-        <div class="container nav-inner">
-            <div class="nav-logo">
-                <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
-                    alt="Narola Infotech">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-logo">
+                    <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
+                        alt="Narola Infotech">
+                </div>
+                <div class="nav-links">
+                    <a href="#chart">Org Chart</a>
+                    <a href="#departments">Departments</a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
-            <div class="nav-links">
+            <div class="nav-mobile" id="navMobile">
                 <a href="#chart">Org Chart</a>
                 <a href="#departments">Departments</a>
             </div>
@@ -175,6 +184,11 @@
         </div>
     </footer>
 
+    <script>
+        document.getElementById('navToggle')?.addEventListener('click', function() {
+            document.getElementById('navMobile')?.classList.toggle('open');
+        });
+    </script>
     <script src="script.js"></script>
 
 </body>
