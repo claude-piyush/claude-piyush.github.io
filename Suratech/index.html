@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suratech — Company Research</title>
+    <meta name="description"
+        content="Aggregated public data, app security audits, and organizational intelligence for Indian IT firms.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -25,6 +27,7 @@
             --warn: #B85C3E;
             --gold: #C9A24C;
             --tag-bg: #EFEDE2;
+            --focus-ring: rgba(204, 120, 92, 0.45);
         }
 
         * {
@@ -50,6 +53,33 @@
             flex-direction: column;
         }
 
+        /* ── Focus styles (accessibility) ── */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* ── Skip link for keyboard users ── */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 16px;
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 0 0 8px 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 1000;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
         .page-wrap {
             flex: 1;
             padding: clamp(40px, 6vw, 70px) 24px;
@@ -60,6 +90,7 @@
             margin: 0 auto;
         }
 
+        /* ── Header ── */
         .dash-header {
             text-align: center;
             margin-bottom: clamp(36px, 5vw, 56px);
@@ -82,6 +113,7 @@
             margin: 0 auto;
         }
 
+        /* ── Divider ── */
         .divider-label {
             display: flex;
             align-items: center;
@@ -102,12 +134,13 @@
             background: var(--line);
         }
 
+        /* ── Company Card ── */
         .company-card {
             background: var(--bg-card);
             border: 1px solid var(--line);
             border-radius: 18px;
             padding: clamp(24px, 3vw, 32px);
-            transition: all 0.25s ease;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
         .company-card:hover {
@@ -124,6 +157,7 @@
 
         .company-head img {
             height: 30px;
+            width: auto;
         }
 
         .company-head .company-name {
@@ -137,9 +171,10 @@
             color: var(--ink-soft);
             font-size: 14px;
             margin-bottom: 18px;
-            line-height: 1.5;
+            line-height: 1.55;
         }
 
+        /* ── Meta Tags ── */
         .company-meta {
             display: flex;
             flex-wrap: wrap;
@@ -154,12 +189,20 @@
             padding: 4px 10px;
             border-radius: 100px;
             border: 1px solid var(--line);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
 
+        .company-meta .meta-item i {
+            font-size: 11px;
+        }
+
+        /* ── Module Grid ── */
         .module-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 6px;
         }
 
         .module-link {
@@ -172,11 +215,12 @@
             color: var(--ink);
             font-size: 13.5px;
             font-weight: 500;
-            transition: all 0.2s ease;
+            transition: background 0.2s ease, border-color 0.2s ease;
             border: 1px solid transparent;
         }
 
-        .module-link:hover {
+        .module-link:hover,
+        .module-link:focus-visible {
             background: var(--tag-bg);
             border-color: var(--line);
         }
@@ -193,14 +237,16 @@
             margin-left: auto;
             color: var(--line);
             font-size: 11px;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease, transform 0.2s ease;
         }
 
-        .module-link:hover .arrow {
+        .module-link:hover .arrow,
+        .module-link:focus-visible .arrow {
             color: var(--accent);
             transform: translateX(2px);
         }
 
+        /* ── Card Footer ── */
         .company-footer {
             margin-top: 12px;
             padding-top: 16px;
@@ -213,6 +259,7 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
+            transition: color 0.15s ease;
         }
 
         .company-footer a:hover {
@@ -222,8 +269,14 @@
         .company-footer a i {
             font-size: 11px;
             margin-left: 4px;
+            transition: transform 0.2s ease;
         }
 
+        .company-footer a:hover i {
+            transform: translateX(3px);
+        }
+
+        /* ── Page Footer ── */
         .dash-footer {
             text-align: center;
             padding: 24px;
@@ -240,6 +293,7 @@
             text-decoration: underline;
         }
 
+        /* ── Responsive ── */
         @media (max-width: 520px) {
             .page-wrap {
                 padding: 28px 16px;
@@ -257,133 +311,154 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* ── Reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="page-wrap">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <main class="page-wrap" id="main-content">
         <div class="container">
 
-            <div class="dash-header">
+            <header class="dash-header">
                 <h1>Suratech<br>Company Research</h1>
-                <div class="subtitle">Aggregated public data, app security audits, and organizational intelligence for
-                    Indian IT firms.</div>
-            </div>
+                <p class="subtitle">Aggregated public data, app security audits, and organizational intelligence for
+                    Indian IT firms.</p>
+            </header>
 
             <!-- Narola Infotech -->
-            <div class="company-card">
-                <a href="narola/index.html" style="text-decoration:none;color:inherit;display:block">
+            <article class="company-card">
+                <a href="narola/index.html" style="text-decoration:none;color:inherit;display:block"
+                    aria-label="Narola Infotech — overview">
                     <div class="company-head">
                         <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
-                            alt="Narola Infotech" onerror="this.style.display='none'">
-                        <span class="company-name">Narola Infotech</span>
+                            alt="Narola Infotech logo" loading="lazy" onerror="this.style.display='none'">
+                        <h2 class="company-name">Narola Infotech</h2>
                     </div>
-                    <div class="company-desc">
+                    <p class="company-desc">
                         Private Limited company based in Surat, Gujarat. Specializes in web &amp; mobile development,
                         digital marketing, and IT staffing. 10+ years in operation.
-                    </div>
-                    <div class="company-meta">
-                        <span class="meta-item"><i class="fa-regular fa-building"></i> U72900GJ2013PTC074532</span>
-                        <span class="meta-item"><i class="fa-regular fa-user"></i> 40+ employees</span>
-                        <span class="meta-item"><i class="fa-regular fa-calendar"></i> Est. 2013</span>
-                        <span class="meta-item"><i class="fa-regular fa-star"></i> 949 freelancer reviews</span>
-                    </div>
+                    </p>
+                    <ul class="company-meta" aria-label="Key facts">
+                        <li class="meta-item"><i class="fa-regular fa-building" aria-hidden="true"></i>
+                            U72900GJ2013PTC074532</li>
+                        <li class="meta-item"><i class="fa-regular fa-user" aria-hidden="true"></i> 40+ employees</li>
+                        <li class="meta-item"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Est. 2013</li>
+                        <li class="meta-item"><i class="fa-regular fa-star" aria-hidden="true"></i> 949 freelancer
+                            reviews</li>
+                    </ul>
                 </a>
 
-                <div class="module-grid">
+                <nav class="module-grid" aria-label="Narola Infotech modules">
                     <a class="module-link" href="narola/infotech/index.html">
-                        <i class="fa-solid fa-building"></i> Company Profile
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-building" aria-hidden="true"></i> Company Profile
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="narola/ambitionbox/index.html">
-                        <i class="fa-solid fa-chart-bar"></i> AmbitionBox
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> AmbitionBox
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="narola/freelancer/index.html">
-                        <i class="fa-solid fa-star"></i> Freelancer Reviews
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i> Freelancer Reviews
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="narola/mad/index.html">
-                        <i class="fa-solid fa-mobile-screen-button"></i> App Analysis
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> App Analysis
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="narola/org-chart/index.html">
-                        <i class="fa-solid fa-sitemap"></i> Org Chart
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-sitemap" aria-hidden="true"></i> Org Chart
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="narola/rocketreach/index.html">
-                        <i class="fa-solid fa-users"></i> People Directory
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-users" aria-hidden="true"></i> People Directory
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
-                </div>
+                </nav>
 
                 <div class="company-footer">
-                    <a href="narola/index.html">Explore all modules <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="narola/index.html">Explore all modules <i class="fa-solid fa-arrow-right"
+                            aria-hidden="true"></i></a>
                 </div>
-            </div>
+            </article>
 
-            <div class="divider-label"></div>
+            <div class="divider-label" role="separator"></div>
 
             <!-- Vasundhara Infotech -->
-            <div class="company-card">
-                <a href="vasundhara/index.html" style="text-decoration:none;color:inherit;display:block">
+            <article class="company-card">
+                <a href="vasundhara/index.html" style="text-decoration:none;color:inherit;display:block"
+                    aria-label="Vasundhara Infotech — overview">
                     <div class="company-head">
-                        <img src="https://www.vasundhara.io/images/svg/logo.svg" alt="Vasundhara Infotech"
-                            onerror="this.style.display='none'">
-                        <span class="company-name">Vasundhara Infotech</span>
+                        <img src="https://www.vasundhara.io/images/svg/logo.svg" alt="Vasundhara Infotech logo"
+                            loading="lazy" onerror="this.style.display='none'">
+                        <h2 class="company-name">Vasundhara Infotech</h2>
                     </div>
-                    <div class="company-desc">
+                    <p class="company-desc">
                         Limited Liability Partnership headquartered in Surat, Gujarat. Builds Android apps, IoT
                         solutions, and web platforms. Notable for security-critical apps with exposed internal
                         infrastructure.
-                    </div>
-                    <div class="company-meta">
-                        <span class="meta-item"><i class="fa-regular fa-building"></i> GST 24AANFV7158E1ZY</span>
-                        <span class="meta-item"><i class="fa-regular fa-user"></i> 34+ employees</span>
-                        <span class="meta-item"><i class="fa-regular fa-calendar"></i> Est. 2015</span>
-                        <span class="meta-item"><i class="fa-solid fa-shield"></i> 3 apps audited</span>
-                    </div>
+                    </p>
+                    <ul class="company-meta" aria-label="Key facts">
+                        <li class="meta-item"><i class="fa-regular fa-building" aria-hidden="true"></i> GST
+                            24AANFV7158E1ZY</li>
+                        <li class="meta-item"><i class="fa-regular fa-user" aria-hidden="true"></i> 34+ employees</li>
+                        <li class="meta-item"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Est. 2015</li>
+                        <li class="meta-item"><i class="fa-solid fa-shield" aria-hidden="true"></i> 3 apps audited</li>
+                    </ul>
                 </a>
 
-                <div class="module-grid">
+                <nav class="module-grid" aria-label="Vasundhara Infotech modules">
                     <a class="module-link" href="vasundhara/infotech/index.html">
-                        <i class="fa-solid fa-building"></i> Company Profile
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-building" aria-hidden="true"></i> Company Profile
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="vasundhara/ambitionbox/index.html">
-                        <i class="fa-solid fa-chart-bar"></i> AmbitionBox
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-chart-bar" aria-hidden="true"></i> AmbitionBox
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="vasundhara/reviews/index.html">
-                        <i class="fa-solid fa-star"></i> Freelancer &amp; Glassdoor
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-star" aria-hidden="true"></i> Freelancer &amp; Glassdoor
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="vasundhara/mad/index.html">
-                        <i class="fa-solid fa-mobile-screen-button"></i> App Dissection
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i> App Dissection
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="vasundhara/org-chart/index.html">
-                        <i class="fa-solid fa-sitemap"></i> Org Chart
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-sitemap" aria-hidden="true"></i> Org Chart
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
                     <a class="module-link" href="vasundhara/people/index.html">
-                        <i class="fa-solid fa-users"></i> People Directory
-                        <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                        <i class="fa-solid fa-users" aria-hidden="true"></i> People Directory
+                        <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                     </a>
-                </div>
+                </nav>
 
                 <div class="company-footer">
-                    <a href="vasundhara/index.html">Explore all modules <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="vasundhara/index.html">Explore all modules <i class="fa-solid fa-arrow-right"
+                            aria-hidden="true"></i></a>
                 </div>
-            </div>
+            </article>
 
         </div>
-    </div>
+    </main>
 
-    <div class="dash-footer">
+    <footer class="dash-footer">
         Suratech · Profiles compiled from public data sources
-    </div>
+    </footer>
 
 </body>
 

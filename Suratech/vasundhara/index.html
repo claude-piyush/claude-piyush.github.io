@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vasundhara Infotech — Dashboard</title>
+    <meta name="description"
+        content="Company intelligence, app security audits, employee data, and org structure for Vasundhara Infotech LLP.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -25,6 +27,7 @@
             --warn: #B85C3E;
             --gold: #C9A24C;
             --tag-bg: #EFEDE2;
+            --focus-ring: rgba(204, 120, 92, 0.45);
         }
 
         * {
@@ -50,6 +53,34 @@
             flex-direction: column;
         }
 
+        /* ── Focus styles (accessibility) ── */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        /* ── Skip link ── */
+        .skip-link {
+            position: absolute;
+            top: -100%;
+            left: 16px;
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 0 0 8px 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 1000;
+            transition: top 0.2s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ── Layout ── */
         .page-wrap {
             flex: 1;
             display: flex;
@@ -63,6 +94,7 @@
             width: 100%;
         }
 
+        /* ── Header ── */
         .dash-header {
             margin-bottom: clamp(24px, 4vw, 36px);
         }
@@ -76,6 +108,7 @@
 
         .dash-logo img {
             height: 28px;
+            width: auto;
         }
 
         .dash-logo .badge {
@@ -113,6 +146,7 @@
             border-bottom: 1px solid var(--line);
         }
 
+        /* ── Module Grid ── */
         .grid {
             display: flex;
             flex-direction: column;
@@ -129,7 +163,7 @@
             gap: 16px;
             text-decoration: none;
             color: var(--ink);
-            transition: all 0.2s ease;
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
             position: relative;
         }
 
@@ -145,16 +179,25 @@
             transition: background 0.2s ease;
         }
 
-        .card:hover {
+        .card:hover,
+        .card:focus-visible {
             border-color: var(--accent);
             transform: translateY(-2px);
             box-shadow: 0 8px 24px -8px rgba(31, 30, 29, 0.12);
         }
 
-        .card:hover::before {
+        .card:hover::before,
+        .card:focus-visible::before {
             background: var(--accent);
         }
 
+        /* Remove default focus outline on card since we have custom styles */
+        .card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        /* ── Icon boxes ── */
         .icon {
             width: 44px;
             height: 44px;
@@ -167,7 +210,8 @@
             transition: transform 0.2s ease;
         }
 
-        .card:hover .icon {
+        .card:hover .icon,
+        .card:focus-visible .icon {
             transform: scale(1.05);
         }
 
@@ -201,6 +245,7 @@
             color: var(--warn);
         }
 
+        /* ── Card content ── */
         .card-content {
             flex: 1;
             min-width: 0;
@@ -223,14 +268,16 @@
             color: var(--line);
             font-size: 13px;
             flex-shrink: 0;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease, transform 0.2s ease;
         }
 
-        .card:hover .arrow {
+        .card:hover .arrow,
+        .card:focus-visible .arrow {
             color: var(--accent);
             transform: translateX(2px);
         }
 
+        /* ── Footer ── */
         .dash-footer {
             text-align: center;
             padding: 24px;
@@ -247,6 +294,7 @@
             text-decoration: underline;
         }
 
+        /* ── Responsive ── */
         @media (max-width: 480px) {
             .page-wrap {
                 padding: 28px 16px;
@@ -277,87 +325,112 @@
                 height: 24px;
             }
         }
+
+        /* ── Reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+
+            .card:hover,
+            .card:focus-visible {
+                transform: none;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <div class="page-wrap">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <main class="page-wrap" id="main-content">
         <div class="container">
-            <div class="dash-header">
+
+            <header class="dash-header">
                 <div class="dash-logo">
-                    <img src="https://www.vasundhara.io/images/svg/logo.svg" alt="Vasundhara Infotech"
+                    <img src="https://www.vasundhara.io/images/svg/logo.svg" alt="Vasundhara Infotech logo"
+                        loading="lazy"
                         onerror="this.outerHTML='<span style=\'font-weight:600;font-size:18px\'>Vasundhara · Dashboard</span>'">
-                    <span class="badge"><i class="fa-solid fa-circle"></i> 6 modules</span>
+                    <span class="badge" aria-label="6 modules available"><i class="fa-solid fa-circle"
+                            aria-hidden="true"></i> 6 modules</span>
                 </div>
                 <h1>Vasundhara Infotech — Research Dashboard</h1>
-                <div class="subtitle">Company intelligence, app security audits, employee data, and org structure.</div>
-            </div>
+                <p class="subtitle">Company intelligence, app security audits, employee data, and org structure.</p>
+            </header>
 
-            <div class="grid">
+            <nav class="grid" aria-label="Research modules">
+
                 <a class="card" href="infotech/index.html">
-                    <div class="icon icon-company"><i class="fa-solid fa-building"></i></div>
+                    <div class="icon icon-company" aria-hidden="true"><i class="fa-solid fa-building"></i></div>
                     <div class="card-content">
-                        <div class="card-title">Company Profile</div>
-                        <div class="card-desc">Overview, legal details, ratings, acquisition info, office locations</div>
+                        <h2 class="card-title">Company Profile</h2>
+                        <p class="card-desc">Overview, legal details, ratings, acquisition info, office locations</p>
                     </div>
-                    <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                 </a>
 
                 <a class="card" href="ambitionbox/index.html">
-                    <div class="icon icon-ambitionbox"><i class="fa-solid fa-chart-bar"></i></div>
+                    <div class="icon icon-ambitionbox" aria-hidden="true"><i class="fa-solid fa-chart-bar"></i></div>
                     <div class="card-content">
-                        <div class="card-title">AmbitionBox Analysis</div>
-                        <div class="card-desc">Employee reviews, salaries, work culture, ratings breakdown</div>
+                        <h2 class="card-title">AmbitionBox Analysis</h2>
+                        <p class="card-desc">Employee reviews, salaries, work culture, ratings breakdown</p>
                     </div>
-                    <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                 </a>
 
                 <a class="card" href="reviews/index.html">
-                    <div class="icon icon-reviews"><i class="fa-solid fa-star"></i></div>
+                    <div class="icon icon-reviews" aria-hidden="true"><i class="fa-solid fa-star"></i></div>
                     <div class="card-content">
-                        <div class="card-title">Freelancer &amp; Glassdoor Reviews</div>
-                        <div class="card-desc">173 freelancer reviews, 25+ Glassdoor reviews, ratings trends</div>
+                        <h2 class="card-title">Freelancer &amp; Glassdoor Reviews</h2>
+                        <p class="card-desc">173 freelancer reviews, 25+ Glassdoor reviews, ratings trends</p>
                     </div>
-                    <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                 </a>
 
                 <a class="card" href="mad/index.html">
-                    <div class="icon icon-mad"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <div class="icon icon-mad" aria-hidden="true"><i class="fa-solid fa-mobile-screen-button"></i></div>
                     <div class="card-content">
-                        <div class="card-title">Mobile App Dissection</div>
-                        <div class="card-desc">3 Android apps audited — FitPod, TV Remote, AI Image Generator. Hardcoded
-                            credentials, leaked AES keys, exposed Zulip server</div>
+                        <h2 class="card-title">Mobile App Dissection</h2>
+                        <p class="card-desc">3 Android apps audited — FitPod, TV Remote, AI Image Generator. Hardcoded
+                            credentials, leaked AES keys, exposed Zulip server</p>
                     </div>
-                    <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                 </a>
 
                 <a class="card" href="org-chart/index.html">
-                    <div class="icon icon-org"><i class="fa-solid fa-sitemap"></i></div>
+                    <div class="icon icon-org" aria-hidden="true"><i class="fa-solid fa-sitemap"></i></div>
                     <div class="card-content">
-                        <div class="card-title">Org Chart</div>
-                        <div class="card-desc">34 members across 5 departments — Executive, Marketing, HR, Technology,
-                            QA</div>
+                        <h2 class="card-title">Org Chart</h2>
+                        <p class="card-desc">34 members across 5 departments — Executive, Marketing, HR, Technology,
+                            QA</p>
                     </div>
-                    <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                 </a>
 
                 <a class="card" href="people/index.html">
-                    <div class="icon icon-people"><i class="fa-solid fa-users"></i></div>
+                    <div class="icon icon-people" aria-hidden="true"><i class="fa-solid fa-users"></i></div>
                     <div class="card-content">
-                        <div class="card-title">People Directory</div>
-                        <div class="card-desc">Employee profiles — roles, experience, education, social links</div>
+                        <h2 class="card-title">People Directory</h2>
+                        <p class="card-desc">Employee profiles — roles, experience, education, social links</p>
                     </div>
-                    <span class="arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                    <span class="arrow" aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                 </a>
-            </div>
-        </div>
-    </div>
 
-    <div class="dash-footer">
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="dash-footer">
         Vasundhara Infotech LLP · GST 24AANFV7158E1ZY<br>
         Profile compiled from public data sources
-    </div>
+    </footer>
 
 </body>
 
