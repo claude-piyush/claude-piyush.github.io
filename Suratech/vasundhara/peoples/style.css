@@ -73,18 +73,6 @@ a {
     white-space: nowrap;
 }
 
-.muted-note {
-    color: var(--muted);
-    font-size: 12.5px;
-    font-style: italic;
-}
-
-.muted-note i {
-    font-style: normal;
-    margin-right: 4px;
-    color: var(--accent);
-}
-
 .skip-link {
     position: absolute;
     top: -40px;
@@ -139,7 +127,7 @@ section {
 }
 
 .nav-logo img {
-    height: 26px;
+    height: 28px;
 }
 
 .nav-logo-fallback {
@@ -276,6 +264,125 @@ section {
     border-top: 1px solid var(--line);
 }
 
+.section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(22px, 3vw, 30px);
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+    line-height: 1.15;
+}
+
+/* Company card */
+.company-card {
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: clamp(22px, 3vw, 32px);
+    position: relative;
+    overflow: hidden;
+}
+
+.company-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+}
+
+.company-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.company-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: white;
+    padding: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.company-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.company-id {
+    flex: 1;
+    min-width: 200px;
+}
+
+.company-name {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(20px, 2.4vw, 26px);
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.company-tagline {
+    color: var(--accent);
+    font-size: 14px;
+    font-style: italic;
+    margin: 4px 0 12px;
+    font-family: 'Fraunces', serif;
+}
+
+.company-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.company-meta .chip.link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.company-desc {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    margin-bottom: 16px;
+}
+
+.specialty-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.specialty-pill {
+    background: var(--tag-bg);
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 12px;
+    padding: 5px 11px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.specialty-pill i {
+    color: var(--accent);
+    font-size: 10px;
+}
+
 /* Controls */
 .controls {
     display: flex;
@@ -352,9 +459,16 @@ section {
 /* Filter chips */
 .filter-chips {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
     gap: 8px;
     margin-bottom: 16px;
+    padding-bottom: 4px;
+}
+
+.filter-chips::-webkit-scrollbar {
+    display: none;
 }
 
 .chip-filter {
@@ -370,6 +484,8 @@ section {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .chip-filter i {
@@ -484,6 +600,10 @@ section {
     background: var(--gold);
 }
 
+.ribbon-premium {
+    background: var(--premium);
+}
+
 .person-head {
     display: flex;
     align-items: center;
@@ -507,21 +627,12 @@ section {
     overflow: hidden;
     border: 2px solid var(--bg-card);
     box-shadow: 0 2px 6px rgba(31, 30, 29, 0.08);
-    position: relative;
 }
 
 .avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.avatar[data-fallback]:not(:has(img))::before {
-    content: attr(data-fallback);
-}
-
-.avatar-initials {
-    display: inline-block;
 }
 
 .person-info {
@@ -552,7 +663,8 @@ section {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -line-clamp: 2;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     line-height: 1.35;
 }
@@ -665,14 +777,14 @@ section {
     border-color: var(--accent);
 }
 
-/* Modal (native dialog) */
+/* Modal */
 .person-modal {
     margin: auto;
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: 18px;
     padding: 0;
-    max-width: 580px;
+    max-width: 600px;
     width: calc(100% - 32px);
     color: var(--ink);
     box-shadow: 0 16px 40px -10px rgba(31, 30, 29, 0.25);
@@ -755,13 +867,6 @@ section {
     margin-top: 4px;
     font-weight: 500;
     word-wrap: break-word;
-}
-
-.modal-sub {
-    font-size: 12.5px;
-    color: var(--muted);
-    margin-top: 3px;
-    font-style: italic;
 }
 
 .modal-loc {
@@ -893,6 +998,7 @@ section {
     font-size: 13.5px;
     color: var(--ink-soft);
     line-height: 1.6;
+    white-space: pre-line;
 }
 
 .modal-list {
@@ -949,6 +1055,13 @@ section {
     font-family: var(--mono);
 }
 
+.job-desc {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
 .skill-cloud {
     display: flex;
     flex-wrap: wrap;
@@ -969,37 +1082,31 @@ section {
     margin-right: 4px;
 }
 
-.contact-table {
+.rec-item {
+    padding: 12px;
     background: var(--bg);
+    border-radius: 8px;
     border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 4px 14px;
+    border-left: 3px solid var(--gold);
 }
 
-.contact-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-    font-size: 13.5px;
-    gap: 12px;
+.rec-author {
+    font-weight: 600;
+    font-size: 13px;
 }
 
-.contact-row:last-child {
-    border-bottom: none;
-}
-
-.contact-row .key {
+.rec-headline {
+    font-size: 11.5px;
     color: var(--muted);
-    flex-shrink: 0;
+    margin-top: 2px;
 }
 
-.contact-row .val {
-    text-align: right;
-    color: var(--ink);
-    word-break: break-all;
-    font-family: var(--mono);
+.rec-text {
     font-size: 12.5px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    line-height: 1.5;
+    font-style: italic;
 }
 
 .modal-socials {
@@ -1074,6 +1181,15 @@ footer {
     .sort-select {
         width: 100%;
     }
+
+    .company-head {
+        flex-direction: column;
+    }
+
+    .company-logo {
+        width: 60px;
+        height: 60px;
+    }
 }
 
 @media (max-width: 640px) {
@@ -1133,7 +1249,6 @@ footer {
     .modal-header {
         padding: 20px 18px 16px;
         flex-direction: column;
-        align-items: flex-start;
         gap: 12px;
     }
 
@@ -1181,7 +1296,7 @@ footer {
     }
 
     .nav-logo img {
-        height: 22px;
+        height: 24px;
     }
 
     .people-grid {
@@ -1204,15 +1319,6 @@ footer {
         font-size: 10px;
     }
 
-    .contact-row {
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .contact-row .val {
-        text-align: left;
-    }
-
     .summary {
         grid-template-columns: repeat(3, 1fr);
         gap: 6px;
@@ -1227,7 +1333,6 @@ footer {
     }
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
 
     *,
@@ -1243,7 +1348,6 @@ footer {
     }
 }
 
-/* Print */
 @media print {
 
     .nav,
@@ -1263,7 +1367,8 @@ footer {
     }
 
     .summary-card,
-    .person-card {
+    .person-card,
+    .company-card {
         box-shadow: none;
         border: 1px solid #ccc;
         break-inside: avoid;
