@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Deep analysis of Vasundhara Infotech — Freelancer reviews, Glassdoor employee feedback, and Play Store presence.">
+    <meta name="theme-color" content="#F5F4ED">
+    <title>Vasundhara Infotech — Multi-Source Review Analysis</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <nav class="nav" aria-label="Main">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-logo">
+                    <span class="logo-mark">V</span>
+                    <span class="logo-text">Vasundhara Infotech</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#overview" data-tab-link="overview">Overview</a>
+                    <a href="#freelancer" data-tab-link="freelancer">Freelancer</a>
+                    <a href="#glassdoor" data-tab-link="glassdoor">Glassdoor</a>
+                    <a href="#playstore" data-tab-link="playstore">Play Store</a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            <div class="nav-mobile" id="navMobile">
+                <a href="#overview" data-tab-link="overview">Overview</a>
+                <a href="#freelancer" data-tab-link="freelancer">Freelancer</a>
+                <a href="#glassdoor" data-tab-link="glassdoor">Glassdoor</a>
+                <a href="#playstore" data-tab-link="playstore">Play Store</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <!-- ============== HERO ============== -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-bg" aria-hidden="true"></div>
+                <div class="section-label">Multi-Source Analysis Dashboard</div>
+                <h1>Vasundhara Infotech<br><span class="hero-accent">Reviews, Ratings &amp; Reputation</span></h1>
+                <p class="hero-desc">A consolidated view across Freelancer.com (client reviews), Glassdoor (employee
+                    feedback), and Play Store (published apps). All metrics computed client-side from raw data.</p>
+
+                <div class="tabs" role="tablist" id="mainTabs">
+                    <button class="tab active" role="tab" data-tab="overview"><i class="fa-solid fa-chart-pie"></i>
+                        Overview</button>
+                    <button class="tab" role="tab" data-tab="freelancer"><i class="fa-solid fa-briefcase"></i>
+                        Freelancer</button>
+                    <button class="tab" role="tab" data-tab="glassdoor"><i class="fa-solid fa-building-user"></i>
+                        Glassdoor</button>
+                    <button class="tab" role="tab" data-tab="playstore"><i class="fa-brands fa-google-play"></i> Play
+                        Store</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== OVERVIEW ============== -->
+        <section id="overview" class="tab-panel active">
+            <div class="container">
+                <div class="section-label">At a glance</div>
+                <h2 class="section-title">Cross-source summary</h2>
+                <p class="section-desc">High-level metrics from each platform. Click any card to jump to detailed
+                    analysis.</p>
+
+                <div class="overview-grid">
+                    <a href="#freelancer" data-tab-link="freelancer" class="ov-card ov-freelancer">
+                        <div class="ov-head">
+                            <div class="ov-icon"><i class="fa-solid fa-briefcase"></i></div>
+                            <h3>Freelancer.com</h3>
+                        </div>
+                        <div class="ov-stats" id="ovFreelancer"></div>
+                        <div class="ov-footer">View detailed analysis <i class="fa-solid fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="#glassdoor" data-tab-link="glassdoor" class="ov-card ov-glassdoor">
+                        <div class="ov-head">
+                            <div class="ov-icon"><i class="fa-solid fa-building-user"></i></div>
+                            <h3>Glassdoor</h3>
+                        </div>
+                        <div class="ov-stats" id="ovGlassdoor"></div>
+                        <div class="ov-footer">View employee feedback <i class="fa-solid fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="#playstore" data-tab-link="playstore" class="ov-card ov-playstore">
+                        <div class="ov-head">
+                            <div class="ov-icon"><i class="fa-brands fa-google-play"></i></div>
+                            <h3>Play Store</h3>
+                        </div>
+                        <div class="ov-stats" id="ovPlaystore"></div>
+                        <div class="ov-footer">View publisher accounts <i class="fa-solid fa-arrow-right"></i></div>
+                    </a>
+                </div>
+
+                <div class="ov-insight" id="ovInsight"></div>
+            </div>
+        </section>
+
+        <!-- ============== FREELANCER ============== -->
+        <section id="freelancer" class="tab-panel">
+            <div class="container">
+                <div class="section-label">Freelancer.com</div>
+                <h2 class="section-title">Client reviews &amp; project metrics</h2>
+                <p class="section-desc">Complete breakdown of every review on Freelancer.com — ratings, revenue, repeat
+                    clients, project categories, and red flags.</p>
+                <div class="summary-grid" id="summaryCards" aria-live="polite"></div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <h3 class="sub-section-title">Visual overview</h3>
+                <div class="chart-grid">
+                    <div class="chart-card">
+                        <h3>Rating Distribution</h3>
+                        <div class="chart-wrap"><canvas id="chartRating"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Revenue by Year (USD)</h3>
+                        <div class="chart-wrap"><canvas id="chartRevenue"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Project Categories (Top 12)</h3>
+                        <div class="chart-wrap"><canvas id="chartCategories"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>On-Time &amp; On-Budget</h3>
+                        <div class="chart-wrap"><canvas id="chartDelivery"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Category Ratings Average</h3>
+                        <div class="chart-wrap"><canvas id="chartCatRatings"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Currency Distribution</h3>
+                        <div class="chart-wrap"><canvas id="chartCurrency"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <div class="section-head">
+                    <div>
+                        <h3 class="sub-section-title">Top clients by spend</h3>
+                        <p class="section-desc">Clients who awarded 2+ projects. Click column headers to re-sort.</p>
+                    </div>
+                    <button class="btn-secondary" id="exportCSV"><i class="fa-solid fa-download"></i> Export
+                        CSV</button>
+                </div>
+                <div class="tbl-wrap" tabindex="0">
+                    <table id="clientTable">
+                        <thead>
+                            <tr>
+                                <th data-sort="name" scope="col">Client ID <span class="sort-icon">↕</span></th>
+                                <th data-sort="count" scope="col">Projects <span class="sort-icon">↕</span></th>
+                                <th data-sort="spend" class="active" scope="col">Total Spend (USD) <span
+                                        class="sort-icon">↓</span></th>
+                                <th data-sort="avg" scope="col">Avg Rating <span class="sort-icon">↕</span></th>
+                                <th data-sort="first" scope="col">First Review <span class="sort-icon">↕</span></th>
+                                <th data-sort="last" scope="col">Last Review <span class="sort-icon">↕</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <h3 class="sub-section-title">Patterns &amp; insights</h3>
+                <div class="insight-grid" id="insightGrid"></div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <h3 class="sub-section-title">Browse all reviews</h3>
+                <p class="section-desc">Filter by rating, status, search text. Press <kbd>/</kbd> to search.</p>
+                <div class="controls">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <input type="text" id="rvSearch" placeholder="Search project name, description…"
+                            aria-label="Search reviews">
+                        <button class="search-clear" id="searchClear" aria-label="Clear search" hidden><i
+                                class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <select class="ctrl-select" id="rvRating" aria-label="Filter by rating">
+                        <option value="all">All Ratings</option>
+                        <option value="5">★★★★★ (5.0)</option>
+                        <option value="4">★★★★ (4.0–4.9)</option>
+                        <option value="3">★★★ (3.0–3.9)</option>
+                        <option value="2">★★ (2.0–2.9)</option>
+                        <option value="1">★ (0–1.9)</option>
+                    </select>
+                    <select class="ctrl-select" id="rvStatus" aria-label="Filter by status">
+                        <option value="all">All Status</option>
+                        <option value="complete">Complete</option>
+                        <option value="incomplete">Incomplete</option>
+                    </select>
+                    <select class="ctrl-select" id="rvSort" aria-label="Sort reviews">
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="rating-desc">Highest Rating</option>
+                        <option value="rating-asc">Lowest Rating</option>
+                        <option value="amount-desc">Highest Amount</option>
+                        <option value="amount-asc">Lowest Amount</option>
+                    </select>
+                    <div class="results-meta" id="rvMeta"></div>
+                </div>
+                <div class="review-list" id="rvList"></div>
+                <div class="pagination" id="rvPagination" aria-label="Pagination"></div>
+            </div>
+        </section>
+
+        <!-- ============== GLASSDOOR ============== -->
+        <section id="glassdoor" class="tab-panel">
+            <div class="container">
+                <div class="section-label">Glassdoor</div>
+                <h2 class="section-title">Employee feedback &amp; culture</h2>
+                <p class="section-desc">What employees and ex-employees say about working at Vasundhara Infotech. CEO:
+                    <strong id="gdCeoName">—</strong>.</p>
+                <div class="gd-rating-hero" id="gdRatingHero"></div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <h3 class="sub-section-title">Sub-ratings breakdown</h3>
+                <div class="chart-grid">
+                    <div class="chart-card">
+                        <h3>Sub-Ratings (out of 5)</h3>
+                        <div class="chart-wrap"><canvas id="gdSubRatings"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Overall Rating Distribution</h3>
+                        <div class="chart-wrap"><canvas id="gdOverallDist"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Recommend to a Friend</h3>
+                        <div class="chart-wrap"><canvas id="gdRecommend"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>CEO Approval &amp; Outlook</h3>
+                        <div class="chart-wrap"><canvas id="gdCeoOutlook"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Reviews Over Time</h3>
+                        <div class="chart-wrap"><canvas id="gdTimeline"></canvas></div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>By Job Role (Top 8)</h3>
+                        <div class="chart-wrap"><canvas id="gdRoles"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <h3 class="sub-section-title">What employees say</h3>
+                <div class="proscons-grid">
+                    <div class="proscon proscon-pros">
+                        <h4><i class="fa-solid fa-thumbs-up"></i> Top Pros (most mentioned)</h4>
+                        <div id="gdPros"></div>
+                    </div>
+                    <div class="proscon proscon-cons">
+                        <h4><i class="fa-solid fa-thumbs-down"></i> Top Cons (most mentioned)</h4>
+                        <div id="gdCons"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-top:48px">
+                <h3 class="sub-section-title">All employee reviews</h3>
+                <div class="controls">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <input type="text" id="gdSearch" placeholder="Search summary, pros, cons…"
+                            aria-label="Search employee reviews">
+                    </div>
+                    <select class="ctrl-select" id="gdRatingFilter">
+                        <option value="all">All Ratings</option>
+                        <option value="5">5 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="2">2 stars</option>
+                        <option value="1">1 star</option>
+                    </select>
+                    <select class="ctrl-select" id="gdRecFilter">
+                        <option value="all">All Recommendations</option>
+                        <option value="POSITIVE">Recommends</option>
+                        <option value="NEGATIVE">Won't recommend</option>
+                    </select>
+                    <select class="ctrl-select" id="gdSort">
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="rating-desc">Highest Rated</option>
+                        <option value="rating-asc">Lowest Rated</option>
+                    </select>
+                    <div class="results-meta" id="gdMeta"></div>
+                </div>
+                <div class="gd-review-list" id="gdReviewList"></div>
+            </div>
+        </section>
+
+        <!-- ============== PLAY STORE ============== -->
+        <section id="playstore" class="tab-panel">
+            <div class="container">
+                <div class="section-label">Google Play Store</div>
+                <h2 class="section-title">Publisher accounts</h2>
+                <p class="section-desc">Vasundhara Infotech maintains three separate publisher accounts on the Play
+                    Store, each focused on a different product line.</p>
+
+                <div class="ps-grid" id="psGrid"></div>
+
+                <div class="ps-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <div>
+                        <strong>Note:</strong> Per-app metrics (downloads, ratings, reviews) are not embedded here
+                        because they live on Google Play and change in real time. Click any card to view the live
+                        publisher page on the Play Store.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" hidden>
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <footer>
+        <div class="container">
+            <div>Vasundhara Infotech · Multi-Source Review Analysis</div>
+            <div class="footer-sub">Data compiled from Freelancer API, Glassdoor &amp; Play Store · All computations
+                client-side</div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>

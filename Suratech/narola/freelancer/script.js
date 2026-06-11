@@ -44413,34 +44413,7 @@ const RAW = {
 // ============================================================
 // THEME
 // ============================================================
-(function initTheme() {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = saved || (prefersDark ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-})();
-
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const updateThemeIcon = () => {
-        const t = document.documentElement.getAttribute('data-theme');
-        themeToggle.innerHTML = t === 'dark'
-            ? '<i class="fa-solid fa-sun"></i>'
-            : '<i class="fa-solid fa-moon"></i>';
-    };
-    updateThemeIcon();
-    themeToggle.addEventListener('click', () => {
-        const cur = document.documentElement.getAttribute('data-theme');
-        const next = cur === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.setItem('theme', next);
-        updateThemeIcon();
-        // Re-render charts with new colors
-        Object.values(charts).forEach(c => c?.destroy?.());
-        renderCharts();
-    });
 
     // Mobile nav
     const navToggle = document.getElementById('navToggle');
@@ -44575,30 +44548,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.s-card .num').forEach(el => countObs.observe(el));
 
     // ============================================================
-    // CHARTS — with theme-aware colors + lazy render
+    // CHARTS — lazy render via IntersectionObserver
     // ============================================================
     const charts = {};
-
-    const getChartColors = () => {
-        const styles = getComputedStyle(document.documentElement);
-        return {
-            accent: styles.getPropertyValue('--accent').trim(),
-            good: styles.getPropertyValue('--good').trim(),
-            warn: styles.getPropertyValue('--warn').trim(),
-            gold: styles.getPropertyValue('--gold').trim(),
-            ink: styles.getPropertyValue('--ink').trim(),
-            muted: styles.getPropertyValue('--muted').trim(),
-            line: styles.getPropertyValue('--line').trim(),
-            palette: ['#CC785C', '#E8B4A0', '#5C7A4F', '#B85C3E', '#C9A24C', '#6B6B66',
-                '#3D3D3A', '#8B6F5F', '#7A9B6B', '#D4A24C', '#9B7A5C', '#5C6B7A']
-        };
-    };
+    const PALETTE = ['#CC785C', '#E8B4A0', '#5C7A4F', '#B85C3E', '#C9A24C', '#6B6B66',
+        '#3D3D3A', '#8B6F5F', '#7A9B6B', '#D4A24C', '#9B7A5C', '#5C6B7A'];
 
     const renderCharts = () => {
         if (typeof Chart === 'undefined') { setTimeout(renderCharts, 100); return; }
-        const c = getChartColors();
-        Chart.defaults.color = c.muted;
-        Chart.defaults.borderColor = c.line;
+
+        Chart.defaults.color = '#6B6B66';
+        Chart.defaults.borderColor = '#E5E2D6';
         Chart.defaults.font.family = "'Inter', sans-serif";
 
         const baseOpts = {
@@ -44621,7 +44581,7 @@ document.addEventListener('DOMContentLoaded', () => {
         charts.rating = new Chart(document.getElementById('chartRating'), {
             type: 'bar',
             data: { labels: Object.keys(ratingBuckets), datasets: [{ data: Object.values(ratingBuckets), backgroundColor: ['#5C7A4F', '#8B9B6B', '#C9A24C', '#E8B4A0', '#CC785C', '#B85C3E'], borderRadius: 6 }] },
-            options: { ...baseOpts, scales: { y: { beginAtZero: true, grid: { color: c.line } }, x: { grid: { display: false } } } }
+            options: { ...baseOpts, scales: { y: { beginAtZero: true, grid: { color: '#E5E2D6' } }, x: { grid: { display: false } } } }
         });
 
         // Revenue by year
@@ -44633,8 +44593,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const yearKeys = Object.keys(yearRev).sort();
         charts.revenue = new Chart(document.getElementById('chartRevenue'), {
             type: 'bar',
-            data: { labels: yearKeys, datasets: [{ data: yearKeys.map(y => Math.round(yearRev[y])), backgroundColor: c.accent, borderRadius: 6 }] },
-            options: { ...baseOpts, scales: { y: { beginAtZero: true, grid: { color: c.line }, ticks: { callback: v => fmtMoney(v) } }, x: { grid: { display: false } } } }
+            data: { labels: yearKeys, datasets: [{ data: yearKeys.map(y => Math.round(yearRev[y])), backgroundColor: '#CC785C', borderRadius: 6 }] },
+            options: { ...baseOpts, scales: { y: { beginAtZero: true, grid: { color: '#E5E2D6' }, ticks: { callback: v => fmtMoney(v) } }, x: { grid: { display: false } } } }
         });
 
         // Categories
@@ -44648,7 +44608,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const catSorted = Object.entries(catMap).sort((a, b) => b[1] - a[1]).slice(0, 12);
         charts.categories = new Chart(document.getElementById('chartCategories'), {
             type: 'doughnut',
-            data: { labels: catSorted.map(c => c[0]), datasets: [{ data: catSorted.map(c => c[1]), backgroundColor: c.palette, borderWidth: 2, borderColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-card').trim() }] },
+            data: { labels: catSorted.map(c => c[0]), datasets: [{ data: catSorted.map(c => c[1]), backgroundColor: PALETTE, borderWidth: 2, borderColor: '#FAF9F5' }] },
             options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'right', labels: { font: { size: 11 }, padding: 8, boxWidth: 10 } } } }
         });
 
@@ -44657,9 +44617,9 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'bar',
             data: {
                 labels: ['On Time', 'Late', 'On Budget', 'Over Budget'],
-                datasets: [{ data: [metrics.onTimeYes, metrics.onTimeNo, metrics.onBudgetYes, metrics.onBudgetNo], backgroundColor: [c.good, c.warn, c.good, c.warn], borderRadius: 6 }]
+                datasets: [{ data: [metrics.onTimeYes, metrics.onTimeNo, metrics.onBudgetYes, metrics.onBudgetNo], backgroundColor: ['#5C7A4F', '#B85C3E', '#5C7A4F', '#B85C3E'], borderRadius: 6 }]
             },
-            options: { ...baseOpts, scales: { y: { beginAtZero: true, grid: { color: c.line } }, x: { grid: { display: false } } } }
+            options: { ...baseOpts, scales: { y: { beginAtZero: true, grid: { color: '#E5E2D6' } }, x: { grid: { display: false } } } }
         });
 
         // Category ratings
@@ -44676,9 +44636,9 @@ document.addEventListener('DOMContentLoaded', () => {
             type: 'radar',
             data: {
                 labels: ['Professionalism', 'Communication', 'Quality', 'Expertise', 'Hire Again'],
-                datasets: [{ data: catRatingAvgs, backgroundColor: c.accent + '26', borderColor: c.accent, pointBackgroundColor: c.accent, borderWidth: 2, pointRadius: 4 }]
+                datasets: [{ data: catRatingAvgs, backgroundColor: 'rgba(204, 120, 92, 0.15)', borderColor: '#CC785C', pointBackgroundColor: '#CC785C', borderWidth: 2, pointRadius: 4 }]
             },
-            options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { stepSize: 1, color: c.muted, backdropColor: 'transparent' }, grid: { color: c.line }, angleLines: { color: c.line }, pointLabels: { color: c.ink, font: { size: 11 } } } }, plugins: { legend: { display: false } } }
+            options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { stepSize: 1, color: '#6B6B66', backdropColor: 'transparent' }, grid: { color: '#E5E2D6' }, angleLines: { color: '#E5E2D6' }, pointLabels: { color: '#1F1E1D', font: { size: 11 } } } }, plugins: { legend: { display: false } } }
         });
 
         // Currency
@@ -44687,7 +44647,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const currSorted = Object.entries(currMap).sort((a, b) => b[1] - a[1]);
         charts.currency = new Chart(document.getElementById('chartCurrency'), {
             type: 'doughnut',
-            data: { labels: currSorted.map(c => c[0]), datasets: [{ data: currSorted.map(c => c[1]), backgroundColor: c.palette, borderWidth: 2, borderColor: getComputedStyle(document.documentElement).getPropertyValue('--bg-card').trim() }] },
+            data: { labels: currSorted.map(c => c[0]), datasets: [{ data: currSorted.map(c => c[1]), backgroundColor: PALETTE, borderWidth: 2, borderColor: '#FAF9F5' }] },
             options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'right', labels: { font: { size: 11 }, padding: 8, boxWidth: 10 } } } }
         });
     };
@@ -44926,7 +44886,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <span class="tag ${otClass}"><i class="fa-solid fa-clock"></i>On-time: ${onTime}</span>
           <span class="tag ${obClass}"><i class="fa-solid fa-wallet"></i>On-budget: ${onBudget}</span>
           <span class="tag"><i class="fa-solid fa-${r.review_project_status === 'complete' ? 'check' : 'xmark'}"></i>${r.review_project_status}</span>
-          ${r.featured ? '<span class="tag" style="color:var(--gold);border-color:color-mix(in srgb, var(--gold) 30%, transparent)"><i class="fa-solid fa-star" style="color:var(--gold)"></i>Featured</span>' : ''}
+          ${r.featured ? '<span class="tag" style="color:var(--gold);border-color:rgba(201,162,76,0.3)"><i class="fa-solid fa-star" style="color:var(--gold)"></i>Featured</span>' : ''}
         </div>
         <div class="rv-text">${desc}${fullDesc.length > 240 ? '…' : ''}</div>
         <div class="rv-foot">
