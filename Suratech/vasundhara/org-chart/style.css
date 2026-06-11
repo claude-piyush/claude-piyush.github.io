@@ -996,6 +996,7 @@ section {
 
 /* Modal */
 .person-modal {
+    margin: auto;
     background: var(--bg-card);
     border: 1px solid var(--line);
     border-radius: 18px;
