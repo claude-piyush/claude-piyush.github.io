@@ -5,23 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Narola Infotech — Company Profile</title>
+    <meta name="description" content="Narola Infotech Pvt Ltd — Surat-based IT services firm offering web, mobile, and software development. Founded 2005. Ratings, reviews, leadership, and registration details.">
+    <meta name="theme-color" content="#F5F4ED">
+    <link rel="canonical" href="#">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Narola Infotech — Company Profile">
+    <meta property="og:description" content="Surat-based IT services firm. Ratings, reviews, leadership, and registration details.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+
+    <!-- Inline SVG favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23CC785C'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' fill='%23FAF9F5' font-family='Georgia,serif' font-size='34' font-weight='600'%3EN%3C/text%3E%3C/svg%3E">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <nav class="nav">
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <nav class="nav" aria-label="Primary navigation">
         <div class="container">
             <div class="nav-inner">
                 <div class="nav-logo">
                     <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
-                        alt="Narola Infotech">
+                         alt="Narola Infotech"
+                         onerror="this.outerHTML='<span class=\'nav-logo-fallback\'>Narola Infotech</span>'">
                 </div>
                 <div class="nav-links">
                     <a href="#ratings">Ratings</a>
@@ -31,11 +45,11 @@
                     <a href="#contacts">Contacts</a>
                     <a href="#registration">Registration</a>
                 </div>
-                <button class="nav-toggle" id="navToggle" aria-label="Open menu">
-                    <i class="fa-solid fa-bars"></i>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMobile">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="nav-mobile" id="navMobile">
+            <div class="nav-mobile" id="navMobile" hidden>
                 <a href="#ratings">Ratings</a>
                 <a href="#reviews">Reviews</a>
                 <a href="#locations">Locations</a>
@@ -46,267 +60,265 @@
         </div>
     </nav>
 
-    <section class="hero" style="border-top: none;">
-        <div class="container">
-            <div class="hero-grid">
-                <div>
-                    <h1>Narola Infotech Private Limited</h1>
-                    <p class="hero-sub">A Surat-based IT services firm offering web, mobile, and software development
-                        across global markets — founded in 2005 with offices in India and the United States.</p>
-                    <div class="hero-meta">
-                        <span class="tag"><i class="fa-solid fa-circle"></i> Active</span>
-                        <span class="tag"><i class="fa-solid fa-building"></i> Private Limited</span>
-                        <span class="tag"><i class="fa-solid fa-calendar"></i> Est. 2005</span>
-                        <span class="tag"><i class="fa-solid fa-location-dot"></i> Surat, India</span>
-                        <span class="tag"><i class="fa-solid fa-globe"></i> Global Presence</span>
-                    </div>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-row">
-                        <span class="stat-label"><i class="fa-solid fa-user-tie"></i> Founder</span>
-                        <span class="stat-value">Ashish Narola</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label"><i class="fa-solid fa-phone"></i> Phone</span>
-                        <span class="stat-value">089800 00788</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label"><i class="fa-brands fa-google"></i> Google</span>
-                        <span class="stat-value">4.0 <span class="stat-sub">(289)</span></span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label"><i class="fa-solid fa-star"></i> Trustpilot</span>
-                        <span class="stat-value warn">1.2 <span class="stat-sub">(17)</span></span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label"><i class="fa-solid fa-briefcase"></i> Freelancer</span>
-                        <span class="stat-value good">5.0 <span class="stat-sub">(949)</span></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main id="main">
 
-    <section id="ratings">
-        <div class="container">
-            <div class="section-label">Reputation</div>
-            <h2 class="section-title">Ratings across platforms</h2>
-            <p class="section-desc">Client sentiment varies significantly depending on the review source — see the
-                breakdown below.</p>
-            <div class="ratings-grid">
-                <div class="rating-card">
-                    <div class="rating-platform"><i class="fa-brands fa-google"></i><span>Google Reviews</span></div>
-                    <div class="rating-num">4.0</div>
-                    <div class="rating-stars">★★★★<span style="color:var(--line)">★</span></div>
-                    <div class="rating-count">289 reviews</div>
-                </div>
-                <div class="rating-card">
-                    <div class="rating-platform"><i class="fa-solid fa-star"></i><span>Trustpilot</span></div>
-                    <div class="rating-num low">1.2</div>
-                    <div class="rating-stars">★<span style="color:var(--line)">★★★★</span></div>
-                    <div class="rating-count">17 reviews</div>
-                </div>
-                <div class="rating-card">
-                    <div class="rating-platform"><i class="fa-solid fa-briefcase"></i><span>Freelancer</span></div>
-                    <div class="rating-num high">5.0</div>
-                    <div class="rating-stars">★★★★★</div>
-                    <div class="rating-count">949 reviews</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="reviews">
-        <div class="container">
-            <div class="section-label">What clients say</div>
-            <h2 class="section-title">Trustpilot reviews</h2>
-            <p class="section-desc">Recent feedback from clients on Trustpilot. Mostly critical, with one positive
-                outlier.</p>
-
-            <div class="reviews-list" id="reviewsList"></div>
-
-            <div class="show-more-wrap">
-                <button class="show-more-btn" id="showMoreBtn">
-                    Show all 17 reviews <i class="fa-solid fa-arrow-down"></i>
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <section id="locations">
-        <div class="container">
-            <div class="section-label">Global presence</div>
-            <h2 class="section-title">Offices & development centers</h2>
-            <p class="section-desc">Four offices across two continents.</p>
-            <div class="locations-grid">
-                <div class="location">
-                    <div class="location-flag">🇺🇸</div>
-                    <div class="location-type">US Office</div>
-                    <div class="location-city">North Carolina</div>
-                    <div class="location-addr">167 E Chatham St Suite 300, Cary, NC 27511</div>
-                </div>
-                <div class="location">
-                    <div class="location-flag">🇺🇸</div>
-                    <div class="location-type">US Office</div>
-                    <div class="location-city">Virginia</div>
-                    <div class="location-addr">43519 Wheadon Ter, Chantilly VA 20152</div>
-                </div>
-                <div class="location">
-                    <div class="location-flag">🇮🇳</div>
-                    <div class="location-type">Development Center · HQ</div>
-                    <div class="location-city">Surat, Gujarat</div>
-                    <div class="location-addr">5th Floor, Unity Corner, TP 10 Main Road, Pal, Surat 395009</div>
-                </div>
-                <div class="location">
-                    <div class="location-flag">🇮🇳</div>
-                    <div class="location-type">Development Center</div>
-                    <div class="location-city">Nashik, Maharashtra</div>
-                    <div class="location-addr">2nd Floor, Pawar Business Square, Pathardi Phata, Nashik 422010</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="leadership">
-        <div class="container">
-            <div class="section-label">The team</div>
-            <h2 class="section-title">Leadership</h2>
-            <p class="section-desc">Executive team driving the company forward.</p>
-            <div class="people-grid">
-                <div class="person">
-                    <div class="person-avatar">AN</div>
-                    <div class="person-name">Ashish Narola</div>
-                    <div class="person-role">Chief Executive Officer</div>
-                </div>
-                <div class="person">
-                    <div class="person-avatar">NP</div>
-                    <div class="person-name">Nilesh Paladiya</div>
-                    <div class="person-role">Chief Technology Officer</div>
-                </div>
-                <div class="person">
-                    <div class="person-avatar">PP</div>
-                    <div class="person-name">Paresh Paladiya</div>
-                    <div class="person-role">Chief Information Officer</div>
-                </div>
-                <div class="person">
-                    <div class="person-avatar">UN</div>
-                    <div class="person-name">Urvish Narola</div>
-                    <div class="person-role">Chief Sales Officer</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contacts">
-        <div class="container">
-            <div class="section-label">Get in touch</div>
-            <h2 class="section-title">Key contacts</h2>
-            <p class="section-desc">Reach out directly to the people responsible.</p>
-            <div class="contacts-grid">
-                <div class="contact">
-                    <div class="contact-head">
-                        <div class="contact-avatar">KP</div>
-                        <div>
-                            <div class="contact-name">Komal Patil</div>
-                            <div class="contact-role">Talent Acquisition Manager</div>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div>
+                        <h1>Narola Infotech Private Limited</h1>
+                        <p class="hero-sub">A Surat-based IT services firm offering web, mobile, and software development across global markets — founded in 2005 with offices in India and the United States.</p>
+                        <div class="hero-meta">
+                            <span class="tag"><i class="fa-solid fa-circle" aria-hidden="true"></i> Active</span>
+                            <span class="tag"><i class="fa-solid fa-building" aria-hidden="true"></i> Private Limited</span>
+                            <span class="tag"><i class="fa-solid fa-calendar" aria-hidden="true"></i> Est. 2005</span>
+                            <span class="tag"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Surat, India</span>
+                            <span class="tag"><i class="fa-solid fa-globe" aria-hidden="true"></i> Global Presence</span>
                         </div>
                     </div>
-                    <div class="contact-links">
-                        <a href="https://wa.me/917387600631"><i class="fa-brands fa-whatsapp"></i> +91 73876 00631</a>
-                        <a href="mailto:komal@narola.email"><i class="fa-solid fa-envelope"></i> komal@narola.email</a>
-                        <a href="https://www.linkedin.com/in/komal-patil-068aa8135"><i
-                                class="fa-brands fa-linkedin"></i> LinkedIn profile</a>
+                    <aside class="hero-stats" aria-label="Quick facts">
+                        <div class="stat-group">
+                            <div class="stat-group-label">Company</div>
+                            <div class="stat-row">
+                                <span class="stat-label"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> Founder</span>
+                                <span class="stat-value">Ashish Narola</span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label"><i class="fa-solid fa-phone" aria-hidden="true"></i> Phone</span>
+                                <span class="stat-value"><a href="tel:+918980000788" class="stat-link">089800 00788</a></span>
+                            </div>
+                        </div>
+                        <div class="stat-group">
+                            <div class="stat-group-label">Ratings</div>
+                            <div class="stat-row">
+                                <span class="stat-label"><i class="fa-brands fa-google" aria-hidden="true"></i> Google</span>
+                                <span class="stat-value">4.0 <span class="stat-sub">(289)</span></span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label"><i class="fa-solid fa-star" aria-hidden="true"></i> Trustpilot</span>
+                                <span class="stat-value warn">1.2 <span class="stat-sub">(17)</span></span>
+                            </div>
+                            <div class="stat-row">
+                                <span class="stat-label"><i class="fa-solid fa-briefcase" aria-hidden="true"></i> Freelancer</span>
+                                <span class="stat-value good">5.0 <span class="stat-sub">(949)</span></span>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section id="ratings" aria-labelledby="ratings-title">
+            <div class="container">
+                <div class="section-label">Reputation</div>
+                <h2 class="section-title" id="ratings-title">Ratings across platforms</h2>
+                <p class="section-desc">Client sentiment varies significantly depending on the review source — see the breakdown below.</p>
+                <div class="ratings-grid">
+                    <div class="rating-card">
+                        <div class="rating-platform"><i class="fa-brands fa-google" aria-hidden="true"></i><span>Google Reviews</span></div>
+                        <div class="rating-num">4.0</div>
+                        <div class="rating-stars" aria-label="4 out of 5 stars">★★★★<span style="color:var(--line)" aria-hidden="true">★</span></div>
+                        <div class="rating-count">289 reviews</div>
+                    </div>
+                    <div class="rating-card">
+                        <div class="rating-platform"><i class="fa-solid fa-star" aria-hidden="true"></i><span>Trustpilot</span></div>
+                        <div class="rating-num low">1.2</div>
+                        <div class="rating-stars" aria-label="1.2 out of 5 stars">★<span style="color:var(--line)" aria-hidden="true">★★★★</span></div>
+                        <div class="rating-count">17 reviews</div>
+                    </div>
+                    <div class="rating-card">
+                        <div class="rating-platform"><i class="fa-solid fa-briefcase" aria-hidden="true"></i><span>Freelancer</span></div>
+                        <div class="rating-num high">5.0</div>
+                        <div class="rating-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                        <div class="rating-count">949 reviews</div>
                     </div>
                 </div>
-                <div class="contact">
-                    <div class="contact-head">
-                        <div class="contact-avatar">DD</div>
-                        <div>
-                            <div class="contact-name">Dhwani Dixit</div>
-                            <div class="contact-role">HR Executive</div>
+            </div>
+        </section>
+
+        <section id="reviews" aria-labelledby="reviews-title">
+            <div class="container">
+                <div class="section-label">What clients say</div>
+                <h2 class="section-title" id="reviews-title">Trustpilot reviews</h2>
+                <p class="section-desc">Recent feedback from clients on Trustpilot. Sentiment skews critical — breakdown below.</p>
+
+                <div class="sentiment-bar" id="sentimentBar" aria-label="Sentiment distribution"></div>
+
+                <div class="review-controls" role="group" aria-label="Filter reviews by rating">
+                    <button class="filter-pill active" data-filter="all">All</button>
+                    <button class="filter-pill" data-filter="1">1 ★</button>
+                    <button class="filter-pill" data-filter="2">2 ★</button>
+                    <button class="filter-pill" data-filter="5">5 ★</button>
+                </div>
+
+                <div class="reviews-list" id="reviewsList"></div>
+
+                <div class="show-more-wrap">
+                    <button class="show-more-btn" id="showMoreBtn" aria-controls="reviewsList" aria-expanded="false">
+                        <span id="showMoreLabel">Show all reviews</span>
+                        <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="locations" aria-labelledby="locations-title">
+            <div class="container">
+                <div class="section-label">Global presence</div>
+                <h2 class="section-title" id="locations-title">Offices &amp; development centers</h2>
+                <p class="section-desc">Four offices across two continents.</p>
+                <div class="locations-grid">
+                    <div class="location">
+                        <div class="location-flag" aria-hidden="true">🇺🇸</div>
+                        <div class="location-type">US Office</div>
+                        <div class="location-city">North Carolina</div>
+                        <div class="location-addr">167 E Chatham St Suite 300, Cary, NC 27511</div>
+                    </div>
+                    <div class="location">
+                        <div class="location-flag" aria-hidden="true">🇺🇸</div>
+                        <div class="location-type">US Office</div>
+                        <div class="location-city">Virginia</div>
+                        <div class="location-addr">43519 Wheadon Ter, Chantilly VA 20152</div>
+                    </div>
+                    <div class="location">
+                        <div class="location-flag" aria-hidden="true">🇮🇳</div>
+                        <div class="location-type">Development Center · HQ</div>
+                        <div class="location-city">Surat, Gujarat</div>
+                        <div class="location-addr">5th Floor, Unity Corner, TP 10 Main Road, Pal, Surat 395009</div>
+                    </div>
+                    <div class="location">
+                        <div class="location-flag" aria-hidden="true">🇮🇳</div>
+                        <div class="location-type">Development Center</div>
+                        <div class="location-city">Nashik, Maharashtra</div>
+                        <div class="location-addr">2nd Floor, Pawar Business Square, Pathardi Phata, Nashik 422010</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="leadership" aria-labelledby="leadership-title">
+            <div class="container">
+                <div class="section-label">The team</div>
+                <h2 class="section-title" id="leadership-title">Leadership</h2>
+                <p class="section-desc">Executive team driving the company forward.</p>
+                <div class="people-grid">
+                    <div class="person">
+                        <div class="person-avatar" aria-hidden="true">AN</div>
+                        <div class="person-name">Ashish Narola</div>
+                        <div class="person-role">Chief Executive Officer</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-avatar" aria-hidden="true">NP</div>
+                        <div class="person-name">Nilesh Paladiya</div>
+                        <div class="person-role">Chief Technology Officer</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-avatar" aria-hidden="true">PP</div>
+                        <div class="person-name">Paresh Paladiya</div>
+                        <div class="person-role">Chief Information Officer</div>
+                    </div>
+                    <div class="person">
+                        <div class="person-avatar" aria-hidden="true">UN</div>
+                        <div class="person-name">Urvish Narola</div>
+                        <div class="person-role">Chief Sales Officer</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacts" aria-labelledby="contacts-title">
+            <div class="container">
+                <div class="section-label">Get in touch</div>
+                <h2 class="section-title" id="contacts-title">Key contacts</h2>
+                <p class="section-desc">Reach out directly to the people responsible.</p>
+                <div class="contacts-grid">
+                    <div class="contact">
+                        <div class="contact-head">
+                            <div class="contact-avatar" aria-hidden="true">KP</div>
+                            <div>
+                                <div class="contact-name">Komal Patil</div>
+                                <div class="contact-role">Talent Acquisition Manager</div>
+                            </div>
+                        </div>
+                        <div class="contact-links">
+                            <a href="https://wa.me/917387600631"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> +91 73876 00631</a>
+                            <a href="mailto:komal@narola.email"><i class="fa-solid fa-envelope" aria-hidden="true"></i> komal@narola.email</a>
+                            <a href="https://www.linkedin.com/in/komal-patil-068aa8135"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn profile</a>
                         </div>
                     </div>
-                    <div class="contact-links">
-                        <a href="https://wa.me/918980000788"><i class="fa-brands fa-whatsapp"></i> +91 89800 00788</a>
-                        <a href="mailto:dhwani.nisl@gmail.com"><i class="fa-solid fa-envelope"></i>
-                            dhwani.nisl@gmail.com</a>
-                        <a href="https://www.linkedin.com/in/dhwani-dixit-5020a4292"><i
-                                class="fa-brands fa-linkedin"></i> LinkedIn profile</a>
+                    <div class="contact">
+                        <div class="contact-head">
+                            <div class="contact-avatar" aria-hidden="true">DD</div>
+                            <div>
+                                <div class="contact-name">Dhwani Dixit</div>
+                                <div class="contact-role">HR Executive</div>
+                            </div>
+                        </div>
+                        <div class="contact-links">
+                            <a href="https://wa.me/918980000788"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> +91 89800 00788</a>
+                            <a href="mailto:dhwani.nisl@gmail.com"><i class="fa-solid fa-envelope" aria-hidden="true"></i> dhwani.nisl@gmail.com</a>
+                            <a href="https://www.linkedin.com/in/dhwani-dixit-5020a4292"><i class="fa-brands fa-linkedin" aria-hidden="true"></i> LinkedIn profile</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="registration">
-        <div class="container">
-            <div class="section-label">Legal & corporate</div>
-            <h2 class="section-title">Company registration</h2>
-            <p class="section-desc">Official MCA registration details.</p>
-            <div class="reg-grid">
-                <div class="reg-table">
-                    <div class="reg-row"><span class="reg-key">Legal Name</span><span class="reg-val">Narola Infotech
-                            Pvt Ltd</span></div>
-                    <div class="reg-row"><span class="reg-key">CIN</span><span
-                            class="reg-val">U72900GJ2013PTC074532</span></div>
-                    <div class="reg-row"><span class="reg-key">Incorporated</span><span class="reg-val">16 Apr,
-                            2013</span></div>
-                    <div class="reg-row"><span class="reg-key">Status</span><span class="reg-val"
-                            style="color:var(--good)">● Active</span></div>
-                    <div class="reg-row"><span class="reg-key">Class</span><span class="reg-val">Private</span></div>
-                    <div class="reg-row"><span class="reg-key">Category</span><span class="reg-val">Limited by
-                            Shares</span></div>
-                    <div class="reg-row"><span class="reg-key">Activity</span><span class="reg-val">Business
-                            Services</span></div>
+        <section id="registration" aria-labelledby="registration-title">
+            <div class="container">
+                <div class="section-label">Legal &amp; corporate</div>
+                <h2 class="section-title" id="registration-title">Company registration</h2>
+                <p class="section-desc">Official MCA registration details.</p>
+                <div class="reg-grid">
+                    <div class="reg-table">
+                        <div class="reg-row"><span class="reg-key">Legal Name</span><span class="reg-val">Narola Infotech Pvt Ltd</span></div>
+                        <div class="reg-row"><span class="reg-key">CIN</span><span class="reg-val">U72900GJ2013PTC074532</span></div>
+                        <div class="reg-row"><span class="reg-key">Incorporated</span><span class="reg-val">16 Apr, 2013</span></div>
+                        <div class="reg-row"><span class="reg-key">Status</span><span class="reg-val reg-status">● Active</span></div>
+                        <div class="reg-row"><span class="reg-key">Class</span><span class="reg-val">Private</span></div>
+                        <div class="reg-row"><span class="reg-key">Category</span><span class="reg-val">Limited by Shares</span></div>
+                        <div class="reg-row"><span class="reg-key">Activity</span><span class="reg-val">Business Services</span></div>
+                    </div>
+                    <div class="reg-table">
+                        <div class="reg-row"><span class="reg-key">Authorized Capital</span><span class="reg-val">₹ 10.0 lakhs</span></div>
+                        <div class="reg-row"><span class="reg-key">Paid-up Capital</span><span class="reg-val">₹ 1.0 lakhs (10%)</span></div>
+                        <div class="reg-row"><span class="reg-key">Registration No.</span><span class="reg-val">74532</span></div>
+                        <div class="reg-row"><span class="reg-key">RoC</span><span class="reg-val">Ahmedabad, Gujarat</span></div>
+                        <div class="reg-row"><span class="reg-key">Listing</span><span class="reg-val">Unlisted</span></div>
+                        <div class="reg-row"><span class="reg-key">Last AGM</span><span class="reg-val">29 Sep, 2017</span></div>
+                        <div class="reg-row"><span class="reg-key">Last Balance Sheet</span><span class="reg-val">31 Mar, 2017</span></div>
+                    </div>
                 </div>
-                <div class="reg-table">
-                    <div class="reg-row"><span class="reg-key">Authorized Capital</span><span class="reg-val">₹ 10.0
-                            lakhs</span></div>
-                    <div class="reg-row"><span class="reg-key">Paid-up Capital</span><span class="reg-val">₹ 1.0 lakhs
-                            (10%)</span></div>
-                    <div class="reg-row"><span class="reg-key">Registration No.</span><span class="reg-val">74532</span>
-                    </div>
-                    <div class="reg-row"><span class="reg-key">RoC</span><span class="reg-val">Ahmedabad, Gujarat</span>
-                    </div>
-                    <div class="reg-row"><span class="reg-key">Listing</span><span class="reg-val">Unlisted</span></div>
-                    <div class="reg-row"><span class="reg-key">Last AGM</span><span class="reg-val">29 Sep, 2017</span>
-                    </div>
-                    <div class="reg-row"><span class="reg-key">Last Balance Sheet</span><span class="reg-val">31 Mar,
-                            2017</span></div>
-                </div>
-            </div>
 
-            <div style="margin-top:16px;" class="reg-table">
-                <div class="reg-row">
-                    <span class="reg-key">Registered Address</span>
-                    <span class="reg-val">Office No. 105, 1st Floor, Regent Square, B/S Sarvoday Complex, Nr. Karan
-                        Park, Adajan, Surat, GJ 395009 IN</span>
-                </div>
-                <div class="reg-row">
-                    <span class="reg-key">Directors</span>
-                    <span class="reg-val">Nileshkumar Ishwarbhai Paladiya · Ashishkumar Vallabhbhai Narola</span>
+                <div class="reg-table reg-table-wide">
+                    <div class="reg-row">
+                        <span class="reg-key">Registered Address</span>
+                        <span class="reg-val">Office No. 105, 1st Floor, Regent Square, B/S Sarvoday Complex, Nr. Karan Park, Adajan, Surat, GJ 395009 IN</span>
+                    </div>
+                    <div class="reg-row">
+                        <span class="reg-key">Directors</span>
+                        <span class="reg-val">Nileshkumar Ishwarbhai Paladiya · Ashishkumar Vallabhbhai Narola</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+    </main>
 
     <footer>
         <div class="container">
-            <div class="socials">
-                <a href="https://in.linkedin.com/company/narola-infotech" title="LinkedIn"><i
-                        class="fa-brands fa-linkedin-in"></i></a>
-                <a href="https://www.instagram.com/narolainfotech/" title="Instagram"><i
-                        class="fa-brands fa-instagram"></i></a>
-                <a href="https://clutch.co/" title="Clutch"><i class="fa-solid fa-c"></i></a>
-                <a href="https://www.trustpilot.com/review/www.narolainfotech.com" title="Trustpilot"><i
-                        class="fa-solid fa-star"></i></a>
+            <div class="socials" aria-label="Social links">
+                <a href="https://in.linkedin.com/company/narola-infotech" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/narolainfotech/" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://clutch.co/" aria-label="Clutch"><i class="fa-solid fa-c" aria-hidden="true"></i></a>
+                <a href="https://www.trustpilot.com/review/www.narolainfotech.com" aria-label="Trustpilot"><i class="fa-solid fa-star" aria-hidden="true"></i></a>
             </div>
             <div class="footer-meta">Narola Infotech Private Limited · CIN U72900GJ2013PTC074532</div>
             <div class="footer-meta" style="margin-top:6px;">Profile compiled from public data sources.</div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
 </body>
 

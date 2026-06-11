@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Narola Infotech — People Directory</title>
+    <meta name="description"
+        content="Browse 30+ profiles of people at Narola Infotech — leadership, engineers, sales, HR, designers. Search by name, role, location, or skill.">
+    <meta name="theme-color" content="#F5F4ED">
+    <meta name="robots" content="noindex">
+
+    <meta property="og:title" content="Narola Infotech — People Directory">
+    <meta property="og:description"
+        content="30+ employee profiles with full work history, skills, education, and contact details. Compiled from public LinkedIn & RocketReach data.">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23CC785C'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' fill='%23FAF9F5' font-family='Georgia,serif' font-size='34' font-weight='600'%3EN%3C/text%3E%3C/svg%3E">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -16,88 +30,109 @@
 
 <body>
 
-    <nav class="nav">
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <nav class="nav" aria-label="Primary">
         <div class="container">
             <div class="nav-inner">
                 <div class="nav-logo">
                     <img src="https://www.narolainfotech.com/wp-content/uploads/2022/09/nisl-logo.svg"
-                        alt="Narola Infotech">
+                        alt="Narola Infotech"
+                        onerror="this.outerHTML='<span class=\'nav-logo-fallback\'>Narola · Directory</span>'">
                 </div>
                 <div class="nav-links">
                     <a href="#search">Search</a>
                     <a href="#directory">Directory</a>
                 </div>
-                <button class="nav-toggle" id="navToggle" aria-label="Open menu">
-                    <i class="fa-solid fa-bars"></i>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"
+                    aria-controls="navMobile">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
                 </button>
             </div>
-            <div class="nav-mobile" id="navMobile">
+            <div class="nav-mobile" id="navMobile" hidden>
                 <a href="#search">Search</a>
                 <a href="#directory">Directory</a>
             </div>
         </div>
     </nav>
 
-    <section class="hero" style="border-top: none;">
-        <div class="container">
-            <div class="section-label">People Directory</div>
-            <h1>Narola Infotech employees</h1>
-            <p>Browse profiles of people at Narola Infotech — search by name, role, or location, then tap any
-                card for full details, experience, and contact teasers.</p>
-            <div class="summary">
-                <div class="summary-card">
-                    <div class="num">10</div>
-                    <div class="lbl">Total People</div>
+    <main id="main">
+
+        <section class="hero">
+            <div class="container">
+                <div class="section-label">People Directory</div>
+                <h1>Narola Infotech employees</h1>
+                <p class="hero-sub">Browse profiles of people at Narola Infotech — search by name, role, location, or
+                    skill. Tap any card for full details: work history, education, skills, and recommendations.</p>
+                <div class="summary" id="summary"></div>
+            </div>
+        </section>
+
+        <section id="directory" aria-labelledby="dir-title">
+            <div class="container">
+                <h2 class="visually-hidden" id="dir-title">Employee directory</h2>
+
+                <div class="controls" role="group" aria-label="Filter and sort people">
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <label class="visually-hidden" for="searchInput">Search people</label>
+                        <input type="search" id="searchInput" placeholder="Search by name, role, location, or skill…"
+                            autocomplete="off">
+                        <button type="button" class="search-clear" id="searchClear" aria-label="Clear search" hidden>
+                            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <label class="visually-hidden" for="sortSelect">Sort</label>
+                    <select class="sort-select" id="sortSelect">
+                        <option value="default">Sort: Default</option>
+                        <option value="name">Name (A→Z)</option>
+                        <option value="recent">Most recent change</option>
+                        <option value="title">By title</option>
+                        <option value="connections">Most connections</option>
+                        <option value="tenure">Longest tenure</option>
+                    </select>
                 </div>
-                <div class="summary-card">
-                    <div class="num" id="leaderCount">4</div>
-                    <div class="lbl">Leadership</div>
+
+                <div class="filter-chips" role="group" aria-label="Filter people">
+                    <button type="button" class="chip-filter active" data-filter="all" aria-pressed="true">All</button>
+                    <button type="button" class="chip-filter" data-filter="leader" aria-pressed="false"><i
+                            class="fa-solid fa-crown" aria-hidden="true"></i>Leadership</button>
+                    <button type="button" class="chip-filter" data-filter="hiring" aria-pressed="false"><i
+                            class="fa-solid fa-bullhorn" aria-hidden="true"></i>Hiring</button>
+                    <button type="button" class="chip-filter" data-filter="opentowork" aria-pressed="false"><i
+                            class="fa-solid fa-briefcase" aria-hidden="true"></i>Open to Work</button>
+                    <button type="button" class="chip-filter" data-filter="recommended" aria-pressed="false"><i
+                            class="fa-solid fa-star" aria-hidden="true"></i>Recommended</button>
+                    <button type="button" class="chip-filter" data-filter="photo" aria-pressed="false"><i
+                            class="fa-solid fa-camera" aria-hidden="true"></i>Has Photo</button>
                 </div>
-                <div class="summary-card">
-                    <div class="num" id="locationCount">4</div>
-                    <div class="lbl">Locations</div>
+
+                <div class="results-meta" id="resultsMeta" aria-live="polite"></div>
+
+                <div class="people-grid" id="peopleGrid"></div>
+
+                <div class="empty-state" id="emptyState" hidden>
+                    <i class="fa-solid fa-user-slash" aria-hidden="true"></i>
+                    <div class="empty-title">No matches</div>
+                    <div class="empty-desc">Try a different name, role, or location. <button type="button"
+                            class="link-btn" id="resetFilters">Clear all filters</button></div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section>
-        <div class="container">
-            <div class="controls">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Search by name, role, location, or skill…">
-                </div>
-                <select class="sort-select" id="sortSelect">
-                    <option value="default">Sort: Default</option>
-                    <option value="name">Name (A→Z)</option>
-                    <option value="recent">Most recent change</option>
-                    <option value="title">By title</option>
-                </select>
-                <div class="results-meta" id="resultsMeta"></div>
-            </div>
+    </main>
 
-            <div class="people-grid" id="peopleGrid"></div>
-        </div>
-    </section>
-
-    <div class="modal-bg" id="modal">
-        <div class="modal" id="modalContent" role="dialog" aria-modal="true"></div>
-    </div>
+    <dialog class="person-modal" id="modal" aria-labelledby="modalName"></dialog>
 
     <footer>
         <div class="container">
-            Narola Infotech Private Limited · People directory<br>
-            <span style="margin-top:6px; display:inline-block;">Compiled from public sources · 10 profiles</span>
+            <div class="footer-meta">Narola Infotech Private Limited · People directory</div>
+            <div class="footer-meta footer-sub">Compiled from public LinkedIn &amp; RocketReach sources · 30 profiles ·
+                Last updated 11 Jun 2026</div>
         </div>
     </footer>
 
-    <script>
-        document.getElementById('navToggle')?.addEventListener('click', function() {
-            document.getElementById('navMobile')?.classList.toggle('open');
-        });
-    </script>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 
 </body>
 

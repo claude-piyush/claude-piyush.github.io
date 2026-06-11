@@ -3,94 +3,58 @@
 
     // ---------- Data ----------
     const orgData = {
-        name: "Ashish Narola", role: "Chief Executive Officer (CEO)", dept: "exec", badge: "CEO",
+        name: "Chirag Pipaliya", role: "Board Member", dept: "exec", badge: "Board",
         children: [
-            { name: "Nilesh Paladiya", role: "Chief Technology Officer (CTO)", dept: "tech", badge: "CTO", children: [] },
             {
-                name: "Paresh Paladiya", role: "Chief Information Officer (CIO)", dept: "infra", badge: "CIO", children: [
-                    { name: "Chirag Mistry", role: "Lead Network Administrator", dept: "infra" }
+                name: "Agnesh Pipaliya", role: "Chief Operating Officer", dept: "exec", badge: "COO",
+                children: [
+                    { name: "Sachin Dungrani", role: "Product Quality Assurance Manager", dept: "ops" },
+                    {
+                        name: "Tarun Bariya", role: "Human Resources Manager", dept: "hr", badge: "Manager",
+                        children: [
+                            {
+                                name: "Tarun Bariya", role: "Human Resources Team Lead", dept: "hr",
+                                note: "Same individual also listed as HR Manager — appears twice in the source data.",
+                                children: [
+                                    { name: "Heni Lapsiwala", role: "Jr. Human Resources Executive", dept: "hr" },
+                                    { name: "Sailor Arti", role: "Human Resources Specialist", dept: "hr" },
+                                    { name: "Dharini Gohil", role: "Human Resources Executive", dept: "hr" },
+                                    { name: "Sanjana Asodariya", role: "Human Resources Executive", dept: "hr" },
+                                    { name: "Ayushi Hr", role: "Human Resources Executive", dept: "hr" },
+                                    { name: "Jayesh Variya", role: "Human Resources Executive", dept: "hr" },
+                                    { name: "Vimal Tarsariya", role: "Head of Department", dept: "hr" }
+                                ]
+                            }
+                        ]
+                    },
+                    { name: "Ronak Pipaliya", role: "Head of Technology (Game & Animation)", dept: "tech", badge: "Head" }
                 ]
             },
             {
-                name: "Urvish Narola", role: "Chief Sales Officer (CSO)", dept: "exec", badge: "CSO", children: [
+                name: "Somish Kakadiya", role: "Chief Marketing Officer", dept: "marketing", badge: "CMO",
+                children: [
                     {
-                        name: "Krunal Kantharia", role: "Sr. Business Development Manager", dept: "sales", children: [
+                        name: "Vasundhara Infotech", role: "Marketing Head", dept: "marketing",
+                        note: "Corporate placeholder account in The Org's data — not an individual person.",
+                        isPlaceholder: true,
+                        children: [
                             {
-                                name: "Raj Chauhan", role: "Business Development Manager", dept: "sales", children: [
-                                    { name: "Himanshu Mistry", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Shivam Desai", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Madhu Varma", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Mohammed Godil", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Mahir Shaikh", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Bhumi Shah", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Drashti Joshi", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Manoj Parmar", role: "Business Development Executive", dept: "sales" },
-                                    { name: "Uvais Saiyed", role: "Business Development Associate", dept: "sales" },
-                                    { name: "Priyanshi Jariwala", role: "Jr. Business Development Executive", dept: "sales" },
-                                    { name: "Shaymabegum Saiyed", role: "Jr. Business Development Associate", dept: "sales" },
-                                    { name: "Priyanka Nayak", role: "Jr. Business Development Executive", dept: "sales" },
-                                    { name: "Mital Saliya", role: "Business Development Associate", dept: "sales" }
+                                name: "Gaurav Das", role: "Digital Marketing Manager", dept: "marketing", badge: "Manager",
+                                children: [
+                                    { name: "Vivek Gamit", role: "Search Engine Optimization Team Lead", dept: "marketing" },
+                                    { name: "Raj More", role: "Sr. SEO Executive", dept: "marketing" },
+                                    { name: "Dhruvi Satasiya", role: "ASO Executive", dept: "marketing" },
+                                    { name: "Sojitra Ankit", role: "App Store Optimization", dept: "marketing" },
+                                    { name: "Divyesh Patil", role: "Digital Marketing Executive", dept: "marketing" },
+                                    { name: "Pinal Ratanpara", role: "Digital Marketing Executive", dept: "marketing" },
+                                    { name: "Arihant Rakhecha", role: "Digital Marketing Executive", dept: "marketing" },
+                                    { name: "Atul Parmar", role: "Search Engine Optimization Executive", dept: "marketing" },
+                                    { name: "Yankit Gayakvad", role: "Search Engine Optimization Executive", dept: "marketing" },
+                                    { name: "Shivani Patel", role: "Search Engine Optimization Executive", dept: "marketing" }
                                 ]
                             }
                         ]
                     }
-                ]
-            },
-            {
-                name: "Prerna Gupta", role: "Director of Operations", dept: "exec", badge: "Director", children: [
-                    {
-                        name: "Nitesh Gujar", role: "Team Leader", dept: "ops", children: [
-                            { name: "Priyank Gandhi", role: "Assistant Team Leader", dept: "ops" },
-                            { name: "Akhil Ise", role: "Mobile Application Developer", dept: "ops" },
-                            { name: "Micky Shah", role: "Android Developer", dept: "ops" },
-                            { name: "Bhaven Shah", role: "Sr. Android Developer", dept: "ops" },
-                            { name: "Jay Patel", role: "iOS Developer", dept: "ops" }
-                        ]
-                    },
-                    {
-                        name: "Viral Patel", role: "Project Manager", dept: "ops", children: [
-                            {
-                                name: "Zaid Saiyad", role: "Technical Team Lead", dept: "ops", children: [
-                                    { name: "Divyang Vaghela", role: "Trainee Software Engineer", dept: "ops" },
-                                    { name: "Atul Sable", role: "Software Trainee", dept: "ops" },
-                                    { name: "Nisarg Patil", role: "Trainee Software Engineer", dept: "ops" },
-                                    { name: "Jyot Paghdal", role: "Trainee Software Engineer", dept: "ops" },
-                                    { name: "Prachi Deore", role: "Trainee Software Engineer", dept: "ops" },
-                                    { name: "Daraksha A.", role: "Trainee Software Engineer", dept: "ops" }
-                                ]
-                            },
-                            {
-                                name: "Milan Gupta", role: "Team Lead", dept: "ops", children: [
-                                    { name: "Kaushik Patel", role: "Software Tester", dept: "ops" },
-                                    { name: "Hansraj Darekar", role: "PHP Developer Intern", dept: "ops" },
-                                    { name: "Kishan Rathod", role: "Ruby On Rails Developer", dept: "ops" },
-                                    { name: "Hardik Vekaiya", role: "Full Stack Developer", dept: "ops" },
-                                    { name: "Nisha Rao", role: "Sr. QA Engineer", dept: "ops" },
-                                    { name: "Pooja Patil", role: "Sr. Wordpress Developer", dept: "ops" },
-                                    { name: "Ankit Prajapati", role: "Wordpress Developer", dept: "ops" },
-                                    { name: "Krisha Patel", role: "Software Engineer Trainee", dept: "ops" },
-                                    { name: "Adnan Shaikh", role: "Software Engineer Intern", dept: "ops" },
-                                    { name: "Rushikesh Bhavsar", role: "Software Engineer Intern", dept: "ops" },
-                                    { name: "Saurav Patel", role: "Jr. Software Engineer", dept: "ops" },
-                                    { name: "Vaishvi Vaidya", role: "Software Engineer Trainee", dept: "ops" },
-                                    { name: "Priti Ladda", role: "Software Engineer Trainee", dept: "ops" }
-                                ]
-                            },
-                            { name: "Shubham Gadhe", role: "PHP Developer", dept: "ops" }
-                        ]
-                    },
-                    {
-                        name: "Winsun Michael", role: "HR Manager", dept: "hr", badge: "Manager", children: [
-                            { name: "Komal Patil", role: "Talent Acquisition Manager", dept: "hr" },
-                            { name: "Dhwani Dixit", role: "Human Resources Executive", dept: "hr" }
-                        ]
-                    },
-                    { name: "Maitri Visariya", role: "Sr. Implementation Consultant", dept: "ops" },
-                    { name: "Harshal Bhatt", role: "Sr. Software Consultant", dept: "ops" },
-                    { name: "Jay Jariwala", role: "Senior Consultant", dept: "ops" },
-                    { name: "Riya Shastri", role: "Senior Consultant", dept: "ops" },
-                    { name: "Krishna Gondaliya", role: "Senior Consultant", dept: "ops" },
-                    { name: "Mahesh Trapasiya", role: "Senior Consultant", dept: "ops" }
                 ]
             }
         ]
@@ -98,17 +62,20 @@
 
     // ---------- Constants ----------
     const deptLabels = {
-        exec: 'Executive', tech: 'Technology', ops: 'Operations',
-        sales: 'Sales', hr: 'Human Resources', infra: 'Infrastructure'
+        exec: 'Executive', marketing: 'Marketing', hr: 'Human Resources',
+        tech: 'Technology', ops: 'Quality Assurance'
     };
-    const levelLabels = ['C-Suite', 'Director / VP', 'Manager / Lead', 'Senior / Specialist', 'Executive / Engineer', 'Trainee / Intern'];
+    const levelLabels = ['Board', 'C-Suite', 'Manager / Lead', 'Senior / Specialist', 'Executive', 'Junior / Trainee'];
 
     // ---------- Helpers ----------
     const escapeHtml = str => String(str).replace(/[&<>"']/g, c => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[c]));
 
-    const initials = name => name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    const initials = name => {
+        const parts = name.split(' ').filter(Boolean);
+        return parts.slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    };
 
     const pluralize = (n, singular, plural) => `${n} ${n === 1 ? singular : (plural || singular + 's')}`;
 
@@ -146,7 +113,8 @@
         const totalTeam = countDescendants(node);
         registry[id] = {
             id, name: node.name, role: node.role, dept: node.dept,
-            parent: parentName, directReports, totalTeam, level
+            parent: parentName, directReports, totalTeam, level,
+            note: node.note || null, isPlaceholder: !!node.isPlaceholder
         };
 
         const li = document.createElement('li');
@@ -155,6 +123,7 @@
 
         const card = document.createElement('div');
         card.className = 'node-card';
+        if (node.isPlaceholder) card.classList.add('is-placeholder');
         card.dataset.dept = node.dept;
         card.dataset.id = String(id);
         card.id = `person-${id}`;
@@ -177,12 +146,15 @@
 
         const avatar = document.createElement('div');
         avatar.className = 'node-avatar';
-        avatar.textContent = initials(node.name);
+        avatar.textContent = node.isPlaceholder ? 'V' : initials(node.name);
         avatar.setAttribute('aria-hidden', 'true');
 
         const info = document.createElement('div');
         info.className = 'node-info';
-        info.innerHTML = `<div class="node-name">${escapeHtml(node.name)}</div><div class="node-role">${escapeHtml(node.role)}</div>`;
+        const nameHtml = node.isPlaceholder
+            ? `<div class="node-name">${escapeHtml(node.name)} <span class="node-flag" title="Corporate placeholder, not an individual"><i class="fa-solid fa-circle-info" aria-hidden="true"></i></span></div>`
+            : `<div class="node-name">${escapeHtml(node.name)}</div>`;
+        info.innerHTML = `${nameHtml}<div class="node-role">${escapeHtml(node.role)}</div>`;
 
         const meta = document.createElement('div');
         meta.className = 'node-meta';
@@ -199,7 +171,6 @@
         card.appendChild(meta);
         li.appendChild(card);
 
-        // Click anywhere except toggle opens modal
         card.addEventListener('click', (e) => {
             if (e.target.closest('.node-toggle')) return;
             openModal(id);
@@ -239,24 +210,30 @@
             childUl.classList.remove('collapsed');
             toggle.classList.add('expanded');
             toggle.setAttribute('aria-expanded', 'true');
-            toggle.setAttribute('aria-label', toggle.getAttribute('aria-label').replace('Expand', 'Collapse'));
+            const lbl = toggle.getAttribute('aria-label');
+            if (lbl) toggle.setAttribute('aria-label', lbl.replace('Expand', 'Collapse'));
         } else if (!shouldExpand && !isCollapsed) {
             childUl.classList.add('collapsed');
             toggle.classList.remove('expanded');
             toggle.setAttribute('aria-expanded', 'false');
-            toggle.setAttribute('aria-label', toggle.getAttribute('aria-label').replace('Collapse', 'Expand'));
+            const lbl = toggle.getAttribute('aria-label');
+            if (lbl) toggle.setAttribute('aria-label', lbl.replace('Collapse', 'Expand'));
         }
     };
 
-    // Build the tree
     const tree = document.getElementById('orgTree');
     tree.appendChild(buildNode(orgData));
 
-    // Auto-expand root (CEO)
+    // Auto-expand the top two levels (Board → COO + CMO)
     const rootToggle = tree.querySelector('.node-toggle');
     const rootChildren = tree.querySelector('.org-children');
     if (rootToggle && rootChildren && !rootToggle.classList.contains('leaf')) {
         toggleNode(rootChildren, rootToggle, true);
+        // Also expand level-2 (COO and CMO) so user immediately sees the structure
+        rootChildren.querySelectorAll(':scope > li > .node-card > .node-toggle:not(.leaf)').forEach(t => {
+            const ul = document.getElementById(t.getAttribute('aria-controls'));
+            if (ul) toggleNode(ul, t, true);
+        });
     }
 
     // ---------- Expand / collapse all ----------
@@ -289,7 +266,7 @@
         currentModalId = id;
 
         const avatar = document.getElementById('modalAvatar');
-        avatar.textContent = initials(n.name);
+        avatar.textContent = n.isPlaceholder ? 'V' : initials(n.name);
         avatar.style.background = cssVar(`--${n.dept}`);
 
         document.getElementById('modalName').textContent = n.name;
@@ -301,7 +278,16 @@
         document.getElementById('modalTotal').textContent = n.totalTeam > 0 ? pluralize(n.totalTeam, 'person', 'people') : 'Individual contributor';
         document.getElementById('modalLevel').textContent = levelLabels[Math.min(n.level, levelLabels.length - 1)];
 
-        // Update URL hash for shareable link
+        // Show note if present
+        let noteRow = modal.querySelector('.modal-note');
+        if (noteRow) noteRow.remove();
+        if (n.note) {
+            const note = document.createElement('div');
+            note.className = 'modal-note';
+            note.innerHTML = `<i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>${escapeHtml(n.note)}</span>`;
+            modal.querySelector('.modal-body').appendChild(note);
+        }
+
         history.replaceState(null, '', `#person-${id}`);
 
         if (typeof modal.showModal === 'function') {
@@ -328,7 +314,6 @@
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('close', () => document.body.classList.remove('modal-open'));
     modal.addEventListener('click', (e) => {
-        // Click on backdrop (dialog itself, not children) closes
         const rect = modal.getBoundingClientRect();
         if (e.clientX < rect.left || e.clientX > rect.right ||
             e.clientY < rect.top || e.clientY > rect.bottom) {
@@ -359,11 +344,10 @@
     const expandAncestors = (id) => {
         const card = document.getElementById(`person-${id}`);
         if (!card) return;
-        let parent = card.parentElement?.parentElement; // li > ul
+        let parent = card.parentElement?.parentElement;
         while (parent) {
             if (parent.classList && parent.classList.contains('org-children')) {
                 parent.classList.remove('collapsed');
-                // Find the toggle button — sibling to this UL within the parent LI
                 const parentLi = parent.parentElement;
                 const parentToggle = parentLi?.querySelector(':scope > .node-card > .node-toggle');
                 if (parentToggle && !parentToggle.classList.contains('leaf')) {
@@ -375,7 +359,7 @@
         }
     };
 
-    // ---------- Search + department filter ----------
+    // ---------- Search + dept filter ----------
     const searchInput = document.getElementById('orgSearch');
     const searchClear = document.getElementById('searchClear');
     const searchStatus = document.getElementById('searchStatus');
@@ -403,7 +387,6 @@
             }
         });
 
-        // When searching or filtering, expand everything so matches are visible
         if (query || activeDept !== 'all') {
             document.querySelectorAll('.org-children').forEach(ul => ul.classList.remove('collapsed'));
             document.querySelectorAll('.node-toggle:not(.leaf)').forEach(t => {
@@ -412,7 +395,6 @@
             });
         }
 
-        // Status + empty state
         if (query) {
             const count = registry.filter(p => p.name.toLowerCase().includes(query) || p.role.toLowerCase().includes(query)).length;
             const filtered = matchedIds.length;
@@ -432,13 +414,10 @@
         orgEmpty.hidden = !noMatches;
         tree.hidden = noMatches;
 
-        // Scroll first match into view
         if (query && matchedIds.length > 0) {
             const firstCard = document.getElementById(`person-${matchedIds[0]}`);
             if (firstCard) {
-                requestAnimationFrame(() => {
-                    firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                });
+                requestAnimationFrame(() => firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' }));
             }
         }
     };
@@ -475,32 +454,22 @@
     });
 
     // ---------- Departments grid ----------
-    const deptMembers = {
-        exec: ["Ashish Narola", "Urvish Narola", "Prerna Gupta", "Nilesh Paladiya", "Paresh Paladiya"],
-        ops: ["Nitesh Gujar", "Priyank Gandhi", "Viral Patel", "Zaid Saiyad", "Milan Gupta", "Shubham Gadhe", "Maitri Visariya", "Harshal Bhatt", "Jay Jariwala", "Riya Shastri", "Krishna Gondaliya", "Mahesh Trapasiya", "Divyang Vaghela", "Atul Sable", "Nisarg Patil", "Jyot Paghdal", "Prachi Deore", "Daraksha A.", "Kaushik Patel", "Hansraj Darekar", "Kishan Rathod", "Hardik Vekaiya", "Nisha Rao", "Pooja Patil", "Ankit Prajapati", "Krisha Patel", "Adnan Shaikh", "Rushikesh Bhavsar", "Saurav Patel", "Vaishvi Vaidya", "Priti Ladda", "Akhil Ise", "Micky Shah", "Bhaven Shah", "Jay Patel"],
-        sales: ["Krunal Kantharia", "Raj Chauhan", "Himanshu Mistry", "Shivam Desai", "Madhu Varma", "Mohammed Godil", "Mahir Shaikh", "Bhumi Shah", "Drashti Joshi", "Manoj Parmar", "Uvais Saiyed", "Priyanshi Jariwala", "Shaymabegum Saiyed", "Priyanka Nayak", "Mital Saliya"],
-        hr: ["Winsun Michael", "Komal Patil", "Dhwani Dixit"],
-        infra: ["Paresh Paladiya", "Chirag Mistry"],
-        tech: ["Nilesh Paladiya"]
-    };
+    // Build dept member lists from registry — using ids so we can deep-link
+    const deptMembersByDept = {};
+    registry.forEach(p => {
+        if (!deptMembersByDept[p.dept]) deptMembersByDept[p.dept] = [];
+        deptMembersByDept[p.dept].push(p);
+    });
 
-    // Name → registry id lookup so dept members can deep-link to chart
-    const nameToId = {};
-    registry.forEach(p => { nameToId[p.name] = p.id; });
-
-    for (const [dept, members] of Object.entries(deptMembers)) {
+    for (const [dept, members] of Object.entries(deptMembersByDept)) {
         const el = document.getElementById('dept-' + dept);
         if (!el) continue;
-        el.innerHTML = members.map(m => {
-            const id = nameToId[m];
-            if (id !== undefined) {
-                return `<button type="button" class="dept-member" data-id="${id}">${escapeHtml(m)}</button>`;
-            }
-            return `<span class="dept-member">${escapeHtml(m)}</span>`;
+        el.innerHTML = members.map(p => {
+            const placeholderClass = p.isPlaceholder ? ' is-placeholder-chip' : '';
+            return `<button type="button" class="dept-member${placeholderClass}" data-id="${p.id}" title="${escapeHtml(p.role)}">${escapeHtml(p.name)}</button>`;
         }).join('');
     }
 
-    // Clicking a dept member jumps to chart + opens modal
     document.querySelectorAll('.dept-member[data-id]').forEach(btn => {
         btn.addEventListener('click', () => {
             const id = parseInt(btn.dataset.id, 10);
@@ -515,6 +484,26 @@
             }
         });
     });
+
+    // ---------- Headcount distribution bars ----------
+    const deptCounts = [
+        { dept: 'marketing', count: 14 },
+        { dept: 'hr', count: 10 },
+        { dept: 'exec', count: 2 },
+        { dept: 'tech', count: 1 },
+        { dept: 'ops', count: 1 }
+    ];
+    const totalCount = 34;
+    document.getElementById('deptBars').innerHTML = deptCounts.map(d => {
+        const pct = (d.count / totalCount * 100).toFixed(1);
+        return `<div class="dept-bar-row">
+            <div class="dept-bar-label"><span class="dot ${d.dept}-dot" aria-hidden="true"></span>${deptLabels[d.dept]}</div>
+            <div class="dept-bar-track">
+                <div class="dept-bar-fill ${d.dept}-fill" style="width:${pct}%">${d.count}</div>
+            </div>
+            <div class="dept-bar-pct">${pct}%</div>
+        </div>`;
+    }).join('');
 
     // ---------- Deep-link on initial load ----------
     if (location.hash.startsWith('#person-')) {

@@ -48,9 +48,9 @@
         const valueEl = block.querySelector('[data-mask]');
         const revealBtn = block.querySelector('[data-action="reveal"]');
         const copyBtn = block.querySelector('[data-action="copy"]');
-        const originalValue = valueEl.textContent.trim();
+        if (!valueEl || !revealBtn || !copyBtn) return;
 
-        // Initial masked state
+        const originalValue = valueEl.textContent.trim();
         valueEl.dataset.original = originalValue;
         valueEl.textContent = maskValue(originalValue);
         valueEl.classList.add('is-masked');

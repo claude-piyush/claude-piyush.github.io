@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vasundhara Infotech — App Portfolio Audit</title>
+    <meta name="description"
+        content="Technical teardown of three Android apps shipped by Vasundhara Infotech: FitPod, Universal TV Remote Control, and AI Image Generator. Findings include an exposed internal Zulip server, hardcoded GitLab tokens, leaked AES keys, and disabled SSL validation.">
+    <meta name="theme-color" content="#F5F4ED">
+    <meta name="robots" content="noindex">
+
+    <meta property="og:title" content="Vasundhara Infotech — App Portfolio Audit">
+    <meta property="og:description"
+        content="Source-level findings: exposed Zulip server, hardcoded credentials, leaked encryption keys, disabled SSL validation.">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23B85C3E'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' fill='%23FAF9F5' font-family='Georgia,serif' font-size='36' font-weight='600'%3E!%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <nav class="nav" aria-label="Primary">
+        <div class="container">
+            <div class="nav-inner">
+                <div class="nav-logo">
+                    <img src="https://www.vasundhara.io/images/svg/logo.svg" alt="Vasundhara Infotech"
+                        onerror="this.outerHTML='<span class=\'nav-logo-fallback\'>Vasundhara · Audit</span>'">
+                </div>
+                <div class="nav-links">
+                    <a href="#overview">Overview</a>
+                    <a href="#fitpod">FitPod</a>
+                    <a href="#tvremote">TV Remote</a>
+                    <a href="#aiimage">AI Image Gen</a>
+                    <a href="#zulip">Zulip Server</a>
+                    <a href="#findings">Findings</a>
+                </div>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false"
+                    aria-controls="navMobile">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="nav-mobile" id="navMobile" hidden>
+                <a href="#overview">Overview</a>
+                <a href="#fitpod">FitPod</a>
+                <a href="#tvremote">TV Remote</a>
+                <a href="#aiimage">AI Image Gen</a>
+                <a href="#zulip">Zulip Server</a>
+                <a href="#findings">Findings</a>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+
+        <section class="hero" id="overview">
+            <div class="container">
+                <div class="section-label">App Portfolio Audit</div>
+                <h1>Vasundhara Infotech — shipped apps, examined</h1>
+                <p class="hero-sub">A technical teardown of three Android apps built by Vasundhara Infotech. Static APK
+                    analysis reveals an exposed internal Zulip chat server, hardcoded GitLab tokens, leaked AES
+                    encryption keys, disabled SSL validation, and a Node.js backend with broken authentication.</p>
+
+                <div class="hero-tags">
+                    <span class="tag"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> 3 Apps Audited</span>
+                    <span class="tag"><i class="fa-solid fa-building" aria-hidden="true"></i> Vasundhara Infotech
+                        LLP</span>
+                    <span class="tag warn-tag"><i class="fa-solid fa-comments" aria-hidden="true"></i> Internal Chat
+                        Exposed</span>
+                    <span class="tag warn-tag"><i class="fa-solid fa-key" aria-hidden="true"></i> AES Keys Leaked</span>
+                    <span class="tag warn-tag"><i class="fa-solid fa-shield" aria-hidden="true"></i> SSL Disabled</span>
+                </div>
+
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="num">3</div>
+                        <div class="lbl">Apps Reviewed</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="num warn">5</div>
+                        <div class="lbl">Critical Issues</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="num warn">10</div>
+                        <div class="lbl">Hardcoded Secrets</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="num">52</div>
+                        <div class="lbl">API Endpoints</div>
+                    </div>
+                </div>
+
+                <div class="severity-legend" aria-label="Severity legend">
+                    <span class="legend-title">Severity scale:</span>
+                    <span class="sev sev-critical">Critical</span>
+                    <span class="sev sev-high">High</span>
+                    <span class="sev sev-medium">Medium</span>
+                    <span class="sev sev-low">Low</span>
+                </div>
+
+                <div class="app-summary-grid">
+                    <a href="#fitpod" class="app-summary-card">
+                        <div class="asc-name">FitPod</div>
+                        <div class="asc-pkg">com.app.fitpod</div>
+                        <div class="asc-counts">
+                            <span class="sev sev-critical">0 C</span>
+                            <span class="sev sev-high">2 H</span>
+                            <span class="sev sev-medium">2 M</span>
+                            <span class="sev sev-low">2 L</span>
+                        </div>
+                    </a>
+                    <a href="#tvremote" class="app-summary-card">
+                        <div class="asc-name">TV Remote Control</div>
+                        <div class="asc-pkg">com.remote.control.universal.forall.tv</div>
+                        <div class="asc-counts">
+                            <span class="sev sev-critical">3 C</span>
+                            <span class="sev sev-high">1 H</span>
+                            <span class="sev sev-medium">2 M</span>
+                            <span class="sev sev-low">1 L</span>
+                        </div>
+                    </a>
+                    <a href="#aiimage" class="app-summary-card">
+                        <div class="asc-name">AI Image Generator</div>
+                        <div class="asc-pkg">aiimagegenerator.aiart.animefilter</div>
+                        <div class="asc-counts">
+                            <span class="sev sev-critical">2 C</span>
+                            <span class="sev sev-high">2 H</span>
+                            <span class="sev sev-medium">2 M</span>
+                            <span class="sev sev-low">1 L</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- App 1: FitPod -->
+        <section id="fitpod" aria-labelledby="fitpod-title">
+            <div class="container">
+                <div class="app-card">
+                    <div class="app-header">
+                        <div class="app-icon fitpod" aria-hidden="true">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                        <div class="app-id">
+                            <h2 class="app-name" id="fitpod-title">FitPod</h2>
+                            <div class="app-pkg">com.app.fitpod</div>
+                            <p class="app-desc">Private gym pod booking platform — users book hourly access to 24/7
+                                fitness pods in Mexico via Stripe-powered subscriptions. IoT-controlled smart locks
+                                (Shelly) physically unlock pods on confirmed bookings.</p>
+                            <div class="app-tags">
+                                <span class="tag"><i class="fa-brands fa-android" aria-hidden="true"></i> Flutter
+                                    (Dart)</span>
+                                <span class="tag"><i class="fa-solid fa-flag" aria-hidden="true"></i> Mexico</span>
+                                <span class="tag"><i class="fa-solid fa-credit-card" aria-hidden="true"></i>
+                                    Stripe</span>
+                                <span class="tag"><i class="fa-solid fa-lock" aria-hidden="true"></i> Shelly IoT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="app-body">
+
+                        <div class="alert alert-high">
+                            <i class="fa-solid fa-server" aria-hidden="true"></i>
+                            <div>
+                                <div class="alert-head">
+                                    <span class="sev sev-high">High</span>
+                                    <span class="alert-title">Internal infrastructure exposed in config</span>
+                                </div>
+                                Staging server <code>fitpodapi.vasundharasolutions.com</code> and local dev server
+                                <code>10.0.128.8:4000</code> are commented out in production config but still readable.
+                                The Shelly IoT smart lock cloud endpoint controls physical gym door access — if those
+                                keys leak, an attacker could remotely unlock pods.
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                                Architecture</h3>
+                            <div class="kv-table">
+                                <div class="kv-row"><span class="kv-key">Framework</span><span class="kv-val">Flutter
+                                        (Dart)</span></div>
+                                <div class="kv-row"><span class="kv-key">Rendering</span><span class="kv-val">Skia /
+                                        Impeller</span></div>
+                                <div class="kv-row"><span class="kv-key">Source Status</span><span
+                                        class="kv-val">Obfuscated (Dart compiled to libapp.so)</span></div>
+                                <div class="kv-row"><span class="kv-key">State Management</span><span
+                                        class="kv-val">Unknown (obfuscated)</span></div>
+                                <div class="kv-row"><span class="kv-key">License Check</span><span
+                                        class="kv-val">com.pairip.licensecheck (anti-piracy)</span></div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> Backend
+                                Servers</h3>
+                            <div class="kv-table">
+                                <div class="kv-row">
+                                    <span class="kv-key">Production</span>
+                                    <span class="kv-val mono">https://api.fitpod.mx <span class="status-ok">●
+                                            Active</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Staging</span>
+                                    <span class="kv-val mono">https://fitpodapi.vasundharasolutions.com <span
+                                            class="status-warn">● Exposed</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Local Dev</span>
+                                    <span class="kv-val mono">http://10.0.128.8:4000 <span class="status-warn">●
+                                            Internal IP leaked</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Public Website</span>
+                                    <span class="kv-val mono">https://fitpod.mx (Vite + React)</span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Admin Panel</span>
+                                    <span class="kv-val mono">https://admin.fitpod.mx (Vite + React, i18n)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-key" aria-hidden="true"></i> Hardcoded API
+                                Keys</h3>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        Google Maps Android API Key <span class="cred-note">(SHA1-restricted)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>AIzaSyDxJiVfbbszxBDvXtm44zmjwnOyn1Hu2JE</div>
+                            </div>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        Google Maps iOS API Key <span class="cred-note">(bundle-ID restricted)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>AIzaSyB8UBHl3wWdTBsSkci_n19zSsv6d2zeKTs</div>
+                            </div>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        Google Cloud Project ID <span class="cred-note">(metadata leak)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>1087331266649</div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-lock" aria-hidden="true"></i> IoT Smart Lock
+                                Integration</h3>
+                            <div class="alert alert-high alert-tight">
+                                <i class="fa-solid fa-door-open" aria-hidden="true"></i>
+                                <div>
+                                    <div class="alert-head">
+                                        <span class="sev sev-high">High</span>
+                                        <span class="alert-title">Shelly cloud locks control physical pod doors</span>
+                                    </div>
+                                    The admin panel has a <code>/shelly-lock-key</code> route where Shelly cloud auth
+                                    keys are configured. Endpoint <code>shelly-213-eu.shelly.cloud</code> is used to
+                                    remotely unlock gym pods. If Shelly auth keys leak via admin compromise, an attacker
+                                    gains physical access to all FitPod locations.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-plug" aria-hidden="true"></i> API Endpoints
+                                (37)</h3>
+                            <button class="collapsible-toggle" data-toggle="fitpodEndpoints" aria-expanded="false"
+                                aria-controls="fitpodEndpoints">
+                                <span class="toggle-label">Show all 37 endpoints</span>
+                                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="collapsible-content" id="fitpodEndpoints" hidden>
+                                <div class="endpoint-groups">
+                                    <div class="ep-group">
+                                        <div class="ep-group-label">Admin</div>
+                                        <ul class="ep-list">
+                                            <li><code>POST /v1/admin/login</code></li>
+                                            <li><code>GET /v1/admin/dashboard</code></li>
+                                            <li><code>GET /v1/admin/dashboard-yearly-chart</code></li>
+                                            <li><code>POST /v1/admin/change-admin-password</code></li>
+                                            <li><code>GET /v1/admin/download-csv</code></li>
+                                            <li><code>GET /v1/admin/export-booking-overview</code></li>
+                                            <li><code>GET /v1/admin/export-payment-overview</code></li>
+                                            <li><code>POST /v1/admin/update-subscription</code></li>
+                                            <li><code>POST /v1/admin/add-vat</code></li>
+                                            <li><code>GET /v1/admin/get-vat</code></li>
+                                            <li><code>POST /v1/admin/add-penalty</code></li>
+                                            <li><code>GET /v1/admin/membership-details</code></li>
+                                            <li><code>GET /v1/admin/images</code></li>
+                                            <li><code>POST /v1/admin/shelly-lock-key</code></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ep-group">
+                                        <div class="ep-group-label">Auth</div>
+                                        <ul class="ep-list">
+                                            <li><code>POST /v1/auth/login</code></li>
+                                            <li><code>POST /v1/auth/register</code></li>
+                                            <li><code>POST /v1/auth/logout</code></li>
+                                            <li><code>GET /v1/auth/profile</code></li>
+                                            <li><code>POST /v1/auth/update-profile</code></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ep-group">
+                                        <div class="ep-group-label">Resources</div>
+                                        <ul class="ep-list">
+                                            <li><code>POST /v1/pod/add</code></li>
+                                            <li><code>GET /v1/pod/locations</code></li>
+                                            <li><code>POST /v1/podType/add</code></li>
+                                            <li><code>POST /v1/equipment/add</code></li>
+                                            <li><code>POST /v1/addOns/add</code></li>
+                                            <li><code>POST /v1/discount/add</code></li>
+                                            <li><code>POST /v1/pricing/add</code></li>
+                                            <li><code>POST /v1/cancellationPolicy/add</code></li>
+                                            <li><code>POST /v1/coupon/add</code></li>
+                                            <li><code>POST /v1/coupon/generate-code</code></li>
+                                            <li><code>POST /v1/coupon/check-unique-code</code></li>
+                                            <li><code>GET /v1/payment/plans</code> <span class="ep-warn">(no auth —
+                                                    pricing leaked)</span></li>
+                                            <li><code>POST /v1/testimonial/add</code></li>
+                                            <li><code>POST /v1/info/add-contact</code></li>
+                                            <li><code>GET /v1/info/get</code></li>
+                                            <li><code>POST /v1/info/update-contact</code></li>
+                                            <li><code>POST /v1/notification/create-booking</code></li>
+                                            <li><code>POST /v1/notification/create-broadcast</code></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-cubes" aria-hidden="true"></i> Dependencies
+                                (6)</h3>
+                            <div class="dep-grid">
+                                <div class="dep-card">
+                                    <div class="dep-name">flutter-geolocator</div>
+                                    <div class="dep-type flutter-type">Flutter Package</div>
+                                    <div class="dep-usage">GPS location tracking for fitness routes</div>
+                                </div>
+                                <div class="dep-card">
+                                    <div class="dep-name">flutter_local_notifications</div>
+                                    <div class="dep-type flutter-type">Flutter Package</div>
+                                    <div class="dep-usage">Local push notifications for workout reminders</div>
+                                </div>
+                                <div class="dep-card">
+                                    <div class="dep-name">flutter_inappwebview</div>
+                                    <div class="dep-type flutter-type">Flutter Package</div>
+                                    <div class="dep-usage">In-app WebView for embedded web content</div>
+                                </div>
+                                <div class="dep-card">
+                                    <div class="dep-name">google_maps_flutter</div>
+                                    <div class="dep-type flutter-type">Flutter Package</div>
+                                    <div class="dep-usage">Map display for fitness routes and pod locations</div>
+                                </div>
+                                <div class="dep-card">
+                                    <div class="dep-name">fluttertoast</div>
+                                    <div class="dep-type flutter-type">Flutter Package</div>
+                                    <div class="dep-usage">Toast messages</div>
+                                </div>
+                                <div class="dep-card">
+                                    <div class="dep-name">com.pairip.licensecheck</div>
+                                    <div class="dep-type native-type">Native Library</div>
+                                    <div class="dep-usage">License verification / anti-piracy protection</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App 2: TV Remote -->
+        <section id="tvremote" aria-labelledby="tvremote-title">
+            <div class="container">
+                <div class="app-card">
+                    <div class="app-header">
+                        <div class="app-icon tvremote" aria-hidden="true">
+                            <i class="fa-solid fa-tv"></i>
+                        </div>
+                        <div class="app-id">
+                            <h2 class="app-name" id="tvremote-title">Universal TV Remote Control</h2>
+                            <div class="app-pkg">com.remote.control.universal.forall.tv</div>
+                            <p class="app-desc">Universal remote control for smart TVs, AC units, and IR-controlled
+                                devices. Supports WebOS, Roku, AirPlay, Chromecast, UPnP, and Android TV via ADB.
+                                Monetized via 22 AdMob ad units and IAP subscriptions.</p>
+                            <div class="app-tags">
+                                <span class="tag"><i class="fa-brands fa-android" aria-hidden="true"></i> Native
+                                    Java</span>
+                                <span class="tag warn-tag"><i class="fa-solid fa-comments" aria-hidden="true"></i> Zulip
+                                    Server Exposed</span>
+                                <span class="tag warn-tag"><i class="fa-solid fa-key" aria-hidden="true"></i> GitLab
+                                    Token Leaked</span>
+                                <span class="tag"><i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i> 22 Ad
+                                    Units</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="app-body">
+
+                        <div class="alert alert-critical">
+                            <i class="fa-solid fa-server" aria-hidden="true"></i>
+                            <div>
+                                <div class="alert-head">
+                                    <span class="sev sev-critical">Critical</span>
+                                    <span class="alert-title">Internal infrastructure mapped through the APK</span>
+                                </div>
+                                The APK contains hardcoded credentials for an internal GitLab server (port 5000, now
+                                closed) and references the same IP <code>103.254.172.165</code> where Vasundhara's
+                                internal Zulip team chat (port 8080) is still publicly reachable. Full <a
+                                    href="#zulip">Zulip section below</a> covers live pen-test results.
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                                Architecture</h3>
+                            <div class="kv-table">
+                                <div class="kv-row"><span class="kv-key">Framework</span><span class="kv-val">Native
+                                        Android (Java)</span></div>
+                                <div class="kv-row"><span class="kv-key">Obfuscation</span><span class="kv-val">ProGuard
+                                        full rename (p000a/ – p612zp/, 702 dirs)</span></div>
+                                <div class="kv-row"><span class="kv-key">Native Lib</span><span
+                                        class="kv-val warn">libnative-lib.so (hidden API URLs via JNI)</span></div>
+                                <div class="kv-row"><span class="kv-key">UI</span><span class="kv-val">XML layouts +
+                                        Data Binding</span></div>
+                                <div class="kv-row"><span class="kv-key">Image Loading</span><span class="kv-val">Glide
+                                        + Picasso + Universal Image Loader</span></div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> Backend
+                                Servers (6)</h3>
+                            <div class="kv-table">
+                                <div class="kv-row">
+                                    <span class="kv-key">Production API</span>
+                                    <span class="kv-val mono">https://remotecontrol.vasundharaapps.com <span
+                                            class="status-ok">● Active</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Update Server</span>
+                                    <span class="kv-val mono">https://fourceupdate.vasundharaapps.com <span
+                                            class="status-ok">● Active</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">DatingApp (raw IP)</span>
+                                    <span class="kv-val mono">http://139.59.92.56 <span class="status-dead">● Dead
+                                            (DigitalOcean)</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Internal GitLab</span>
+                                    <span class="kv-val mono">http://103.254.172.165:5000 <span class="status-dead">●
+                                            Port closed</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Promo / Cross-promo</span>
+                                    <span class="kv-val mono">http://vasundharaapps.com/artwork_apps/api/ <span
+                                            class="status-warn">● HTTP, not HTTPS</span></span>
+                                </div>
+                                <div class="kv-row">
+                                    <span class="kv-key">Internal Zulip</span>
+                                    <span class="kv-val mono">https://103.254.172.165:8080 <span class="status-dead">●
+                                            PUBLICLY EXPOSED</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-key" aria-hidden="true"></i> Hardcoded GitLab
+                                Credentials</h3>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        GitLab Private Token <span class="cred-note">(full read access to project
+                                            1602)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>_nbJ7pT5N4mCY5znnaae</div>
+                            </div>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        GitLab Session Cookie <span class="cred-note">(plaintext)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>_gitlab_session=86e88493236368bb3cab9cb7bae060d7</div>
+                            </div>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        Adjust SDK Token <span class="cred-note">(SANDBOX mode)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>r8gg2rr6sbnk</div>
+                            </div>
+
+                            <div class="credential-block" data-credential>
+                                <div class="cred-header">
+                                    <div class="cred-label">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                        AdMob Publisher ID <span class="cred-note">(shared across 3 Vasundhara
+                                            apps)</span>
+                                    </div>
+                                    <div class="cred-actions">
+                                        <button class="cred-btn" data-action="reveal"
+                                            aria-label="Reveal value">Reveal</button>
+                                        <button class="cred-btn" data-action="copy"
+                                            aria-label="Copy value">Copy</button>
+                                    </div>
+                                </div>
+                                <div class="cred-value" data-mask>ca-app-pub-1168261283036318</div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Native
+                                Library Secrets</h3>
+                            <div class="alert alert-high alert-tight">
+                                <i class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+                                <div>
+                                    <div class="alert-head">
+                                        <span class="sev sev-high">High</span>
+                                        <span class="alert-title">Hidden API surface in libnative-lib.so</span>
+                                    </div>
+                                    <code>NDKHelper.java</code> exposes native methods <code>getBaseUrl()</code>,
+                                    <code>getBaseUrlCity()</code>, <code>getBaseUrlRemote()</code>,
+                                    <code>getBaseukUrl()</code>, <code>getBaseusUrl()</code>, <code>code()</code>, and
+                                    <code>gethelp()</code>. These values live in <code>libnative-lib.so</code> and
+                                    require .so reverse engineering to extract. Additional API keys and primary backend
+                                    URL likely hidden here.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i> AdMob Ad
+                                Units (22)</h3>
+                            <button class="collapsible-toggle" data-toggle="tvAdUnits" aria-expanded="false"
+                                aria-controls="tvAdUnits">
+                                <span class="toggle-label">Show all 22 ad units</span>
+                                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="collapsible-content" id="tvAdUnits" hidden>
+                                <div class="modules-grid">
+                                    <div class="module-item"><span class="mod-name">banner_top</span><span
+                                            class="mod-desc">5693531959</span></div>
+                                    <div class="module-item"><span class="mod-name">collap_banner_all</span><span
+                                            class="mod-desc">2840137900</span></div>
+                                    <div class="module-item"><span class="mod-name">banner_splash</span><span
+                                            class="mod-desc">6763679854</span></div>
+                                    <div class="module-item"><span class="mod-name">inter_all</span><span
+                                            class="mod-desc">7505915886</span></div>
+                                    <div class="module-item"><span class="mod-name">inter_splash</span><span
+                                            class="mod-desc">8782729724</span></div>
+                                    <div class="module-item"><span class="mod-name">app_open_resume</span><span
+                                            class="mod-desc">4137516513</span></div>
+                                    <div class="module-item"><span class="mod-name">native_select_remote</span><span
+                                            class="mod-desc">9776021857</span></div>
+                                    <div class="module-item"><span class="mod-name">native_home</span><span
+                                            class="mod-desc">7006613624</span></div>
+                                    <div class="module-item"><span class="mod-name">reward_connect</span><span
+                                            class="mod-desc">2728231921</span></div>
+                                    <div class="module-item"><span class="mod-name">reward_mirror_cast</span><span
+                                            class="mod-desc">8068413853</span></div>
+                                    <div class="module-item"><span class="mod-name">native_onboarding_1</span><span
+                                            class="mod-desc">4041313590</span></div>
+                                    <div class="module-item"><span class="mod-name">native_onboarding_2</span><span
+                                            class="mod-desc">2089103522</span></div>
+                                    <div class="module-item"><span class="mod-name">native_onboarding_3</span><span
+                                            class="mod-desc">8319695297</span></div>
+                                    <div class="module-item"><span class="mod-name">native_onboarding_4</span><span
+                                            class="mod-desc">9381495525</span></div>
+                                </div>
+                                <p class="muted-note">+ 8 additional ad units across banner, interstitial, and native
+                                    categories.</p>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-cubes" aria-hidden="true"></i> Third-Party
+                                SDKs (23)</h3>
+                            <button class="collapsible-toggle" data-toggle="tvSdks" aria-expanded="false"
+                                aria-controls="tvSdks">
+                                <span class="toggle-label">Show all 23 SDKs</span>
+                                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="collapsible-content" id="tvSdks" hidden>
+                                <ul class="lib-list">
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>ConnectSDK — Smart TV
+                                        discovery (webOS, Roku, AirPlay, Chromecast, UPnP)</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Amazon WhisperPlay — Amazon
+                                        Fire casting</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Google Cast SDK</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>tananaev/adblib — ADB
+                                        control for Android TVs</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Google Polo — Pairing
+                                        protocol</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Glide + Picasso + Universal
+                                        Image Loader</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Lottie — Animations</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>RevenueCat — Subscription
+                                        management</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Dexter — Runtime
+                                        permissions</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>ZXing — QR / barcode</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>HTC IR Control</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>OBD Infrared — Universal IR
+                                        codes</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Adjust SDK — Attribution
+                                    </li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>AppsFlyer — Attribution
+                                    </li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Microsoft Clarity —
+                                        Behavior analytics</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Kochava — Attribution</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Facebook SDK — Ads +
+                                        Analytics</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>AppLovin — Ad mediation
+                                    </li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Unity Ads</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Vungle</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>mBridge (Chinese ad
+                                        network)</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Dropbox Core + Google Drive
+                                        API</li>
+                                    <li><i class="fa-solid fa-circle" aria-hidden="true"></i>Firebase (Analytics,
+                                        Crashlytics, Remote Config, FCM, Performance)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- App 3: AI Image Generator -->
+        <section id="aiimage" aria-labelledby="ai-title">
+            <div class="container">
+                <div class="app-card">
+                    <div class="app-header">
+                        <div class="app-icon aiimage" aria-hidden="true">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div class="app-id">
+                            <h2 class="app-name" id="ai-title">AI Image Generator / AI Art / Anime Filter</h2>
+                            <div class="app-pkg">aiimagegenerator.aiart.animefilter</div>
+                            <p class="app-desc">AI-powered image generation: text-to-image, image-to-image, and image
+                                enhancement. Monetized via 12 rewarded ad units per generation. Backend at
+                                <code>pixverseapi.vasundharaapps.com</code> running in STAGING mode.</p>
+                            <div class="app-tags">
+                                <span class="tag"><i class="fa-brands fa-android" aria-hidden="true"></i> Native
+                                    Java/Kotlin</span>
+                                <span class="tag warn-tag"><i class="fa-solid fa-lock-open" aria-hidden="true"></i> SSL
+                                    Disabled</span>
+                                <span class="tag warn-tag"><i class="fa-solid fa-key" aria-hidden="true"></i> AES Key
+                                    Leaked</span>
+                                <span class="tag warn-tag"><i class="fa-solid fa-microchip" aria-hidden="true"></i>
+                                    Native Lib Missing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="app-body">
+
+                        <div class="alert alert-critical">
+                            <i class="fa-solid fa-lock-open" aria-hidden="true"></i>
+                            <div>
+                                <div class="alert-head">
+                                    <span class="sev sev-critical">Critical</span>
+                                    <span class="alert-title">AES key, IV, and SSL bypass all in plaintext</span>
+                                </div>
+                                The app's "encrypted" auth header uses an AES-128-CBC key and IV that are logged to
+                                Logcat at runtime via <code>Log.e</code>. SSL validation is completely disabled
+                                (TrustAllCerts + AcceptAllHostnameVerifier). Combined, an attacker can intercept all
+                                traffic and forge auth headers to call the image generation backend for free.
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                                Architecture</h3>
+                            <div class="kv-table">
+                                <div class="kv-row"><span class="kv-key">Framework</span><span class="kv-val">Native
+                                        Android (Java + Kotlin)</span></div>
+                                <div class="kv-row"><span class="kv-key">Obfuscation</span><span class="kv-val">ProGuard
+                                        rename (p000A/ – p280y/)</span></div>
+                                <div class="kv-row"><span class="kv-key">Native Lib</span><span
+                                        class="kv-val warn">libnative-lib.so (NOT bundled in APK)</span></div>
+                                <div class="kv-row"><span class="kv-key">Networking</span><span class="kv-val">Retrofit2
+                                        + OkHttp3 (custom encryption interceptor)</span></div>
+                                <div class="kv-row"><span class="kv-key">SSL Validation</span><span
+                                        class="kv-val warn">DISABLED (TrustAllCerts + AcceptAllHostnames)</span></div>
+                                <div class="kv-row"><span class="kv-key">HTTP Logging</span><span
+                                        class="kv-val warn">Level.BODY in production (full request/response
+                                        logged)</span></div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-lock" aria-hidden="true"></i> Encryption
+                                Scheme</h3>
+                            <div class="encryption-block">
+                                <div class="enc-row">
+                                    <div class="enc-key">Algorithm</div>
+                                    <div class="enc-val">AES-128-CBC</div>
+                                </div>
+                                <div class="enc-row">
+                                    <div class="enc-key">Key (hex)</div>
+                                    <div class="enc-val mono">
+                                        <span data-credential class="inline-cred">
+                                            <span class="cred-value" data-mask>3b232c4836fc8671a2fac24e895bac89</span>
+                                            <button class="cred-btn" data-action="reveal">Reveal</button>
+                                            <button class="cred-btn" data-action="copy">Copy</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="enc-row">
+                                    <div class="enc-key">IV (hex)</div>
+                                    <div class="enc-val mono">
+                                        <span data-credential class="inline-cred">
+                                            <span class="cred-value" data-mask>38a7a28a5e66f7f1</span>
+                                            <button class="cred-btn" data-action="reveal">Reveal</button>
+                                            <button class="cred-btn" data-action="copy">Copy</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="enc-row">
+                                    <div class="enc-key">Auth Formula</div>
+                                    <div class="enc-val mono small">encrypt(gets(pkg) + ":" + timestamp, key=getx(pkg),
+                                        iv=geta(pkg))</div>
+                                </div>
+                                <div class="enc-row">
+                                    <div class="enc-key">Leak Source</div>
+                                    <div class="enc-val">
+                                        <code>Log.e</code> in <code>RetrofitNetworkManager.java</code>:<br>
+                                        <code class="block-code">new Data().decrypt(getAuthHeader(), key, iv)</code>
+                                    </div>
+                                </div>
+                                <div class="enc-row">
+                                    <div class="enc-key">Bypass Difficulty</div>
+                                    <div class="enc-val">
+                                        Native lib transforms hex strings before AES operations. Standalone AES-CBC
+                                        attempts fail with padding errors — requires either the .so or runtime hooking
+                                        to forge valid headers.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-plug" aria-hidden="true"></i> API Endpoints
+                            </h3>
+                            <div class="table-wrap">
+                                <table class="compare-table api-table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Method</th>
+                                            <th scope="col">Path</th>
+                                            <th scope="col">Auth</th>
+                                            <th scope="col">Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"><span class="http-method get">GET</span></th>
+                                            <td><code>/api/v1/user/categories-with-models</code></td>
+                                            <td><span class="status-warn">No</span></td>
+                                            <td>Encrypted JSON blob (74,512 bytes base64)</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><span class="http-method get">GET</span></th>
+                                            <td><code>/api/v1/user/categories/{requestId}/models</code></td>
+                                            <td><span class="status-warn">No</span></td>
+                                            <td>Alternative categories endpoint</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><span class="http-method post">POST</span></th>
+                                            <td><code>/api/v1/user/generate/image-enhancer</code></td>
+                                            <td><span class="status-ok">Yes</span></td>
+                                            <td>Ad-gated: <code>rew_img_enhance</code></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><span class="http-method post">POST</span></th>
+                                            <td><code>/api/v1/user/generate/image-to-image</code></td>
+                                            <td><span class="status-ok">Yes</span></td>
+                                            <td>Ad-gated: <code>rew_img_to_img</code></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><span class="http-method post">POST</span></th>
+                                            <td><code>/api/v1/user/generate/text-to-image</code></td>
+                                            <td><span class="status-ok">Yes</span></td>
+                                            <td>Ad-gated: <code>rew_text_img</code></td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row"><span class="http-method get">GET</span></th>
+                                            <td><code>/api/v1/user/generate/fetch-queued-image/{id}</code></td>
+                                            <td><span class="status-ok">Yes</span></td>
+                                            <td>Polling endpoint for queued images</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-microchip" aria-hidden="true"></i> Missing
+                                Native Library</h3>
+                            <div class="alert alert-high alert-tight">
+                                <i class="fa-solid fa-question-circle" aria-hidden="true"></i>
+                                <div>
+                                    <div class="alert-head">
+                                        <span class="sev sev-high">High</span>
+                                        <span class="alert-title">libnative-lib.so not bundled — runtime crash
+                                            imminent</span>
+                                    </div>
+                                    <code>Secrets.java</code> and <code>Data.java</code> both call
+                                    <code>System.loadLibrary("native-lib")</code>, but no <code>.so</code> file was
+                                    found for any ABI (arm64-v8a, armeabi-v7a, x86, x86_64). Without dynamic download at
+                                    runtime, every native call throws <code>UnsatisfiedLinkError</code>. This suggests
+                                    the .so is fetched on first launch — opening a supply-chain attack window if that
+                                    download is unsigned.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-folder-tree" aria-hidden="true"></i> Source
+                                Files Found</h3>
+                            <div class="modules-grid">
+                                <div class="module-item"><span class="mod-name">Secrets.java</span><span
+                                        class="mod-desc">6 native methods (geta/getg/getj/getk/gets/getx)</span></div>
+                                <div class="module-item"><span class="mod-name">Data.java</span><span
+                                        class="mod-desc">Native encryptData/decryptData with hex key + iv</span></div>
+                                <div class="module-item"><span class="mod-name">RetrofitNetworkManager.java</span><span
+                                        class="mod-desc">Log.e leak of key + iv at runtime</span></div>
+                                <div class="module-item"><span class="mod-name">ApiService.java</span><span
+                                        class="mod-desc">5 Retrofit endpoint declarations</span></div>
+                                <div class="module-item"><span class="mod-name">RetrofitClient.java</span><span
+                                        class="mod-desc">TrustAllCerts SSL disabled</span></div>
+                                <div class="module-item"><span class="mod-name">BuildConfig.java</span><span
+                                        class="mod-desc">12 AdMob ad unit IDs</span></div>
+                                <div class="module-item"><span class="mod-name">FireBaseEvent.java</span><span
+                                        class="mod-desc">All Firebase Analytics event names</span></div>
+                                <div class="module-item"><span class="mod-name">TemplateFragment.java</span><span
+                                        class="mod-desc">Categories JSON response structure</span></div>
+                            </div>
+                        </div>
+
+                        <div class="sub-section">
+                            <h3 class="sub-heading"><i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i> Reward
+                                Ad Units (12)</h3>
+                            <button class="collapsible-toggle" data-toggle="aiAdUnits" aria-expanded="false"
+                                aria-controls="aiAdUnits">
+                                <span class="toggle-label">Show all 12 ad units</span>
+                                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                            </button>
+                            <div class="collapsible-content" id="aiAdUnits" hidden>
+                                <div class="modules-grid">
+                                    <div class="module-item"><span class="mod-name">rew_hd_img_save_all</span><span
+                                            class="mod-desc">6223722757</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_hd_img_save_hi_1</span><span
+                                            class="mod-desc">3980702794</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_hd_img_save_hi_2</span><span
+                                            class="mod-desc">3789131101</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_img_enhance_all</span><span
+                                            class="mod-desc">7919947806</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_img_enhance_hi_1</span><span
+                                            class="mod-desc">2096829387</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_img_enhance_hi_2</span><span
+                                            class="mod-desc">1055210453</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_img_to_img_all</span><span
+                                            class="mod-desc">7620618801</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_img_to_img_hi_1</span><span
+                                            class="mod-desc">4475526810</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_img_to_img_hi_2</span><span
+                                            class="mod-desc">6910118460</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_text_img_all</span><span
+                                            class="mod-desc">2362205651</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_text_img_hi_1</span><span
+                                            class="mod-desc">8003762189</span></div>
+                                    <div class="module-item"><span class="mod-name">rew_text_img_hi_2</span><span
+                                            class="mod-desc">2571418201</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Zulip Server Deep Dive -->
+        <section id="zulip" aria-labelledby="zulip-title" class="zulip-section">
+            <div class="container">
+                <div class="section-label">Internal Infrastructure</div>
+                <h2 class="section-title" id="zulip-title">Vasundhara's internal Zulip server — exposed</h2>
+                <p class="section-desc">The IP address <code>103.254.172.165</code> was found hardcoded in the Universal
+                    TV Remote APK pointing to an internal GitLab instance. Investigation of the same host revealed an
+                    active Zulip 6.2 team chat server on port 8080 — Vasundhara Infotech's internal communication
+                    platform, publicly reachable from the internet.</p>
+
+                <div class="alert alert-critical">
+                    <i class="fa-solid fa-comments" aria-hidden="true"></i>
+                    <div>
+                        <div class="alert-head">
+                            <span class="sev sev-critical">Critical</span>
+                            <span class="alert-title">Zulip 6.2 — 3+ years behind the latest release</span>
+                        </div>
+                        Current latest Zulip is version 12.0; this server runs 6.2-4-gaea156e46c (feature level 157).
+                        Self-signed TLS certificate, no HSTS, no 2FA, no SSO, no LDAP. Five published CVEs apply,
+                        including a HIGH-severity account creation bypass (CVE-2025-31478).
+                    </div>
+                </div>
+
+                <div class="zulip-grid">
+                    <div class="zulip-panel">
+                        <h3 class="sub-heading"><i class="fa-solid fa-server" aria-hidden="true"></i> Server Details
+                        </h3>
+                        <div class="kv-table">
+                            <div class="kv-row"><span class="kv-key">Host</span><span
+                                    class="kv-val mono">103.254.172.165:8080</span></div>
+                            <div class="kv-row"><span class="kv-key">Realm</span><span class="kv-val">Vasundhara
+                                    Infotech</span></div>
+                            <div class="kv-row"><span class="kv-key">Version</span><span
+                                    class="kv-val warn">6.2-4-gaea156e46c (FL 157)</span></div>
+                            <div class="kv-row"><span class="kv-key">Latest</span><span class="kv-val">12.0</span></div>
+                            <div class="kv-row"><span class="kv-key">Age Gap</span><span class="kv-val warn">3+ years
+                                    behind</span></div>
+                            <div class="kv-row"><span class="kv-key">Proxy</span><span class="kv-val mono">nginx 1.18.0
+                                    (Ubuntu)</span></div>
+                            <div class="kv-row"><span class="kv-key">SSL</span><span class="kv-val warn">Self-signed
+                                    (MITM vulnerable)</span></div>
+                            <div class="kv-row"><span class="kv-key">HSTS</span><span class="kv-val warn">Not set</span>
+                            </div>
+                            <div class="kv-row"><span class="kv-key">Admin Contact</span><span
+                                    class="kv-val mono">vicky3.vasundhara@gmail.com</span></div>
+                        </div>
+                    </div>
+
+                    <div class="zulip-panel">
+                        <h3 class="sub-heading"><i class="fa-solid fa-network-wired" aria-hidden="true"></i> Open Ports
+                            on Host</h3>
+                        <div class="kv-table">
+                            <div class="kv-row"><span class="kv-key">22</span><span class="kv-val mono">SSH — OpenSSH
+                                    8.9p1 Ubuntu</span></div>
+                            <div class="kv-row"><span class="kv-key">443</span><span class="kv-val mono">HTTPS — service
+                                    unknown</span></div>
+                            <div class="kv-row"><span class="kv-key">8080</span><span class="kv-val mono">Zulip HTTPS
+                                    (self-signed)</span></div>
+                            <div class="kv-row"><span class="kv-key">5000</span><span class="kv-val mono">GitLab — <span
+                                        class="status-dead">CLOSED</span></span></div>
+                        </div>
+
+                        <h3 class="sub-heading" style="margin-top:18px;"><i class="fa-solid fa-user-lock"
+                                aria-hidden="true"></i> Auth Methods</h3>
+                        <div class="auth-grid">
+                            <span class="auth-chip enabled">Password</span>
+                            <span class="auth-chip enabled">Email</span>
+                            <span class="auth-chip disabled">2FA</span>
+                            <span class="auth-chip disabled">SSO</span>
+                            <span class="auth-chip disabled">LDAP</span>
+                            <span class="auth-chip disabled">GitHub</span>
+                            <span class="auth-chip disabled">Google</span>
+                            <span class="auth-chip disabled">GitLab</span>
+                            <span class="auth-chip disabled">SAML</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section">
+                    <h3 class="sub-heading"><i class="fa-solid fa-bug" aria-hidden="true"></i> Applicable CVEs (5
+                        unpatched)</h3>
+                    <div class="table-wrap">
+                        <table class="compare-table cve-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">CVE</th>
+                                    <th scope="col">Severity</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Exploitable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"><code>CVE-2025-31478</code></th>
+                                    <td><span class="sev sev-high">High (8.2)</span></td>
+                                    <td>Account creation bypass via SSO misconfiguration. Patched in 10.2.</td>
+                                    <td class="ok-cell">Yes (if SSO ever configured)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>CVE-2024-36625</code></th>
+                                    <td><span class="sev sev-medium">Medium (6.1)</span></td>
+                                    <td>Stored XSS via emoji replacement in <code>ui_util.ts</code>.</td>
+                                    <td class="ok-cell">Yes</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>CVE-2020-14194</code></th>
+                                    <td><span class="sev sev-medium">Medium (5.4)</span></td>
+                                    <td>Reverse tabnapping via topic header link.</td>
+                                    <td class="ok-cell">Yes</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>CVE-2020-12759</code></th>
+                                    <td><span class="sev sev-medium">Medium (6.1)</span></td>
+                                    <td>Reflected XSS via Dropbox webhook.</td>
+                                    <td class="ok-cell">Yes</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><code>CVE-2019-16216</code></th>
+                                    <td><span class="sev sev-medium">Medium (5.4)</span></td>
+                                    <td>Stored XSS via MIME type validation bypass in file uploads.</td>
+                                    <td class="ok-cell">Yes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="sub-section">
+                    <h3 class="sub-heading"><i class="fa-solid fa-flask" aria-hidden="true"></i> Live Pen-Test Results
+                        (2026-06-10)</h3>
+
+                    <div class="pentest-grid">
+                        <div class="pentest-card pentest-blocked">
+                            <div class="pt-head">
+                                <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                                <span class="pt-status">Blocked</span>
+                            </div>
+                            <div class="pt-title">Registration attempt</div>
+                            <div class="pt-detail">Realm configured as invite-only. Server responded with <em>"You need
+                                    an invitation to join this organization."</em></div>
+                        </div>
+
+                        <div class="pentest-card pentest-blocked">
+                            <div class="pt-head">
+                                <i class="fa-solid fa-ban" aria-hidden="true"></i>
+                                <span class="pt-status">Blocked</span>
+                            </div>
+                            <div class="pt-title">Email enumeration</div>
+                            <div class="pt-detail">All tested emails returned "SENT" regardless of existence. Zulip
+                                prevents disclosure by always returning the same success message.</div>
+                        </div>
+
+                        <div class="pentest-card pentest-failed">
+                            <div class="pt-head">
+                                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                                <span class="pt-status">Failed</span>
+                            </div>
+                            <div class="pt-title">Password spray (15 passwords)</div>
+                            <div class="pt-detail">Targets: <code>vicky3.vasundhara@gmail.com</code>,
+                                <code>vicky@vasundharaapps.com</code>. After ~6 attempts per IP, rate limiting kicked in
+                                (429 Too Many Requests, >60s cooldown).</div>
+                        </div>
+
+                        <div class="pentest-card pentest-failed">
+                            <div class="pt-head">
+                                <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
+                                <span class="pt-status">Failed</span>
+                            </div>
+                            <div class="pt-title">API auth bypass</div>
+                            <div class="pt-detail">Tested <code>/api/v1/accounts/login</code>,
+                                <code>/api/v1/users/me/api_key/</code>, <code>/api/v1/register</code>. All returned 404
+                                or required existing session.</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-medium alert-tight" style="margin-top:18px;">
+                        <i class="fa-solid fa-info-circle" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-medium">Conclusion</span>
+                                <span class="alert-title">Remote access not achievable without admin action</span>
+                            </div>
+                            Without an invitation from <code>vicky3.vasundhara@gmail.com</code>, the correct password,
+                            or exploitation of a CVE requiring SSO configuration (CVE-2025-31478 — currently no SSO is
+                            configured), internal Zulip messages cannot be accessed remotely. Rate limiting prevents
+                            brute force; IP-based restrictions may also be in effect.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section">
+                    <h3 class="sub-heading"><i class="fa-solid fa-crosshairs" aria-hidden="true"></i> Plausible Attack
+                        Vectors</h3>
+                    <ul class="vector-list">
+                        <li><i class="fa-solid fa-circle-arrow-right" aria-hidden="true"></i>Social engineer admin
+                            (<code>vicky3.vasundhara@gmail.com</code>) for an invitation</li>
+                        <li><i class="fa-solid fa-circle-arrow-right" aria-hidden="true"></i>CVE-2025-31478 bypass —
+                            only if SSO backend is ever configured (currently not)</li>
+                        <li><i class="fa-solid fa-circle-arrow-right" aria-hidden="true"></i>Password spray from a fresh
+                            IP (current IP rate-limited)</li>
+                        <li><i class="fa-solid fa-circle-arrow-right" aria-hidden="true"></i>Test GitLab token
+                            (<code>_nbJ7pT5N4mCY5znnaae</code>) for password reuse on Zulip</li>
+                        <li><i class="fa-solid fa-circle-arrow-right" aria-hidden="true"></i>Webhook injection via
+                            exposed <code>/api/v1/external/*</code> endpoints</li>
+                        <li><i class="fa-solid fa-circle-arrow-right" aria-hidden="true"></i>Stored XSS via file upload
+                            (CVE-2019-16216) against logged-in users</li>
+                    </ul>
+                </div>
+
+                <div class="sub-section">
+                    <h3 class="sub-heading"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Exposed Webhook
+                        Integrations</h3>
+                    <div class="chip-cloud">
+                        <span class="chip"><code>/api/v1/external/github</code></span>
+                        <span class="chip"><code>/api/v1/external/gitlab</code></span>
+                        <span class="chip"><code>/api/v1/external/jira</code></span>
+                        <span class="chip"><code>/api/v1/external/slack</code></span>
+                        <span class="chip"><code>/api/v1/external/trello</code></span>
+                        <span class="chip"><code>/api/v1/external/sentry</code></span>
+                        <span class="chip"><code>/api/v1/external/papertrail</code></span>
+                        <span class="chip"><code>/api/v1/external/heroku</code></span>
+                        <span class="chip"><code>/api/v1/external/zapier</code></span>
+                        <span class="chip"><code>/api/v1/external/ifttt</code></span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Findings -->
+        <section id="findings" aria-labelledby="findings-title">
+            <div class="container">
+                <div class="section-label">Summary</div>
+                <h2 class="section-title" id="findings-title">Key findings</h2>
+                <p class="section-desc">Critical issues found across all three audited applications, ranked by severity.
+                    Click any item to jump to its detail.</p>
+
+                <ol class="findings-toc" aria-label="Findings table of contents">
+                    <li><a href="#f-zulip"><span class="sev sev-critical">Critical</span> Internal Zulip server exposed
+                            to public internet</a></li>
+                    <li><a href="#f-gitlab"><span class="sev sev-critical">Critical</span> GitLab private token &amp;
+                            session cookie hardcoded</a></li>
+                    <li><a href="#f-aeskey"><span class="sev sev-critical">Critical</span> AES key &amp; IV leaked via
+                            Logcat</a></li>
+                    <li><a href="#f-ssl"><span class="sev sev-critical">Critical</span> SSL validation disabled in AI
+                            Image Generator</a></li>
+                    <li><a href="#f-infra"><span class="sev sev-critical">Critical</span> Internal infrastructure mapped
+                            via APK</a></li>
+                    <li><a href="#f-shelly"><span class="sev sev-high">High</span> Shelly IoT smart locks control
+                            physical access</a></li>
+                    <li><a href="#f-staging"><span class="sev sev-high">High</span> Staging &amp; dev servers exposed in
+                            production config</a></li>
+                    <li><a href="#f-native"><span class="sev sev-high">High</span> Native library missing — runtime
+                            crash risk</a></li>
+                    <li><a href="#f-ads"><span class="sev sev-medium">Medium</span> 95+ AdMob ad unit IDs hardcoded</a>
+                    </li>
+                </ol>
+
+                <div class="findings-list">
+
+                    <article class="alert alert-critical alert-tight" id="f-zulip">
+                        <i class="fa-solid fa-comments" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-critical">Critical</span>
+                                <span class="alert-title">Internal Zulip team chat server exposed to public
+                                    internet</span>
+                            </div>
+                            Vasundhara Infotech's internal Zulip 6.2 server is publicly reachable at
+                            <code>103.254.172.165:8080</code> — discovered via a hardcoded reference in the Universal TV
+                            Remote APK. The server is 3+ years behind the current release (12.0), uses a self-signed TLS
+                            certificate (MITM vulnerable), has no 2FA / SSO / LDAP, and is subject to at least 5
+                            unpatched CVEs (including CVE-2025-31478 HIGH 8.2). Realm name "Vasundhara Infotech" and
+                            admin email <code>vicky3.vasundhara@gmail.com</code> are publicly visible. Live pen-test
+                            confirmed that direct access is blocked by invite-only registration and rate limiting — but
+                            the attack surface remains substantial.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-critical alert-tight" id="f-gitlab">
+                        <i class="fa-solid fa-key" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-critical">Critical</span>
+                                <span class="alert-title">GitLab private token &amp; session cookie hardcoded in
+                                    APK</span>
+                            </div>
+                            The Universal TV Remote APK ships with a plaintext GitLab PRIVATE-TOKEN
+                            (<code>_nbJ7pT5N4mCY5znnaae</code>) and session cookie
+                            (<code>_gitlab_session=86e88493...</code>) granting full read access to project 1602 on the
+                            internal GitLab at <code>103.254.172.165:5000</code>. The server's port is currently closed,
+                            but the credentials remain in every installed copy of the app. If the server is restored or
+                            migrated, the token grants immediate access.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-critical alert-tight" id="f-aeskey">
+                        <i class="fa-solid fa-lock-open" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-critical">Critical</span>
+                                <span class="alert-title">AES-128 key &amp; IV leaked via Logcat at runtime</span>
+                            </div>
+                            The AI Image Generator app encrypts its <code>X-Auth-Header</code> with AES-128-CBC, but the
+                            key (<code>3b232c4836fc8671a2fac24e895bac89</code>) and IV (<code>38a7a28a5e66f7f1</code>)
+                            are logged via <code>Log.e</code> in <code>RetrofitNetworkManager.java</code>. Anyone
+                            reading logcat from an attached device or via a malicious app with log read permission can
+                            extract them. Combined with disabled SSL, this enables full authentication bypass and free
+                            API abuse.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-critical alert-tight" id="f-ssl">
+                        <i class="fa-solid fa-shield" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-critical">Critical</span>
+                                <span class="alert-title">SSL certificate validation completely disabled</span>
+                            </div>
+                            <code>RetrofitClient.java</code> in the AI Image Generator app uses a custom
+                            <code>TrustManager</code> that accepts all certificates and an
+                            <code>AcceptAllHostnameVerifier</code>. Any proxy or hostile network can MITM the entire
+                            traffic. The app's custom encryption interceptor provides only a false sense of security
+                            since the AES key is also leaked. HTTP logging is set to <code>Level.BODY</code> in
+                            production, leaking image prompts and generated content to Logcat.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-critical alert-tight" id="f-infra">
+                        <i class="fa-solid fa-sitemap" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-critical">Critical</span>
+                                <span class="alert-title">Internal infrastructure mapped via APK contents</span>
+                            </div>
+                            Across the three apps, the following internal systems are referenced or exposed: internal
+                            GitLab (<code>103.254.172.165:5000</code>), internal Zulip
+                            (<code>103.254.172.165:8080</code>), DigitalOcean droplet (<code>139.59.92.56</code> —
+                            dead), staging API (<code>fitpodapi.vasundharasolutions.com</code>), local dev IP
+                            (<code>10.0.128.8:4000</code>), and primary production APIs at
+                            <code>remotecontrol.vasundharaapps.com</code>, <code>pixverseapi.vasundharaapps.com</code>,
+                            and <code>api.fitpod.mx</code>. Several use HTTP rather than HTTPS. The shared IP across
+                            GitLab and Zulip pivots Vasundhara's entire internal-tooling host into the public attack
+                            surface.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-high alert-tight" id="f-shelly">
+                        <i class="fa-solid fa-door-open" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-high">High</span>
+                                <span class="alert-title">Shelly IoT smart locks control physical gym access</span>
+                            </div>
+                            FitPod uses Shelly cloud locks at <code>shelly-213-eu.shelly.cloud</code> to physically
+                            unlock gym pods on confirmed bookings. The admin panel has a dedicated
+                            <code>/shelly-lock-key</code> route for configuring lock auth keys. If admin credentials or
+                            Shelly keys leak via any of the other findings above, an attacker can unlock physical pods
+                            remotely — escalating from a digital compromise to physical break-in.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-high alert-tight" id="f-staging">
+                        <i class="fa-solid fa-server" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-high">High</span>
+                                <span class="alert-title">Staging &amp; dev servers leaked in production config</span>
+                            </div>
+                            FitPod's config file contains commented-out references to
+                            <code>fitpodapi.vasundharasolutions.com</code> (Vasundhara's internal staging server) and
+                            <code>10.0.128.8:4000</code> (local dev on Vasundhara's office network). These hint at how
+                            the production environment is set up and provide enumeration targets. Vasundhara's
+                            <code>vasundharasolutions.com</code> domain suggests separate corporate vs. product
+                            infrastructure that may not share the same hardening.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-high alert-tight" id="f-native">
+                        <i class="fa-solid fa-microchip" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-high">High</span>
+                                <span class="alert-title">Native library not bundled — runtime crash or dynamic supply
+                                    chain</span>
+                            </div>
+                            The AI Image Generator declares <code>System.loadLibrary("native-lib")</code> in
+                            <code>Secrets.java</code> and <code>Data.java</code>, but no <code>.so</code> file ships in
+                            the APK for any ABI. The app must either crash on first launch
+                            (<code>UnsatisfiedLinkError</code>) or dynamically download the library at runtime. If the
+                            latter, the download URL and signature verification become a hidden supply-chain risk — an
+                            attacker who controls the download channel can replace the encryption logic entirely.
+                        </div>
+                    </article>
+
+                    <article class="alert alert-medium alert-tight" id="f-ads">
+                        <i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i>
+                        <div>
+                            <div class="alert-head">
+                                <span class="sev sev-medium">Medium</span>
+                                <span class="alert-title">95+ AdMob ad unit IDs hardcoded with shared publisher</span>
+                            </div>
+                            All three apps share the same AdMob publisher ID (<code>ca-app-pub-1168261283036318</code>)
+                            with 95+ ad unit IDs hardcoded across Java source files. While not directly exploitable,
+                            competitors or click-fraud actors can use these to generate fraudulent ad impressions,
+                            potentially leading to AdMob account suspension for the entire publisher and revenue loss
+                            across all apps.
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links" aria-label="External links">
+                <a href="https://www.linkedin.com/company/vasundhara-infotech" aria-label="LinkedIn"><i
+                        class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+                <a href="https://www.vasundhara.io/" aria-label="Website"><i class="fa-solid fa-globe"
+                        aria-hidden="true"></i></a>
+                <a href="https://play.google.com/store/apps/developer?id=Vasundhara+Infotech+LLP"
+                    aria-label="Play Store"><i class="fa-brands fa-google-play" aria-hidden="true"></i></a>
+            </div>
+            <div class="footer-meta">Vasundhara Infotech LLP · App Portfolio Audit</div>
+            <div class="footer-meta footer-sub">3 apps audited · Static APK analysis + live infrastructure
+                reconnaissance · Audit date 10 Jun 2026</div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+
+</body>
+
+</html>
