@@ -111,6 +111,17 @@ kbd {
     font-family: 'Fraunces', serif;
 }
 
+.nav-logo img {
+    height: 28px;
+}
+
+.nav-logo-fallback {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 16px;
+}
+
 .logo-mark {
     display: inline-flex;
     align-items: center;
